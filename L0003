@@ -1,0 +1,53 @@
+package Algorithms.LeetCode;
+
+import java.util.HashSet;
+import java.util.Set;
+
+public class L0003LengestNoRepeatSubString {
+
+    public static void main(String[] args) {
+        System.out.println(lengthOfLongestSubstring("abcabcbb"));
+    }
+
+    public static int lengthOfLongestSubstring(String s) {
+        if (s.length() == 0 || s == null) {
+            return -1;
+        }
+        Set<Character> set = new HashSet<Character>();
+        int i = 0, j = 0;
+        int record = 0;
+        while (i < s.length()) {
+            if (!set.contains(s.charAt(i))) {
+                set.add(s.charAt(i));
+                i++;
+            } else {
+                set.remove(s.charAt(j));
+                j++;
+            }
+            record = Math.max(record, i - j);
+        }
+        return record;
+    }
+
+}
+
+/**
+ class Solution {
+ public:
+    int lengthOfLongestSubstring(string s) {
+     unordered_set<char> set;
+     int j = 0,i=0;
+     int result = 0;
+     while(i<s.size()){
+         if(!set.count(s[i])){
+             set.insert(s[i]);
+             i++;
+         }else{
+             set.erase(s[j]);
+             j++;
+         }
+         result = max(result, i - j );
+     }
+     return result;
+    }
+};*/
