@@ -5,16 +5,26 @@ public class ReverseTwoDimensionalMatrix {
         int[][] matrix = {{1, 2, 3},
                 {4, 5, 6},
                 {7, 8, 9}};
-        Reverse(matrix);
+        ReverseRow(matrix);
         TraverseTwoDimensionalArray.traverseMatrixNormal(matrix);
     }
 
-    public static void Reverse(int[][] matrix) {
+    public static void ReverseRow(int[][] matrix) {
         for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length/2; j++) {
+            for (int j = 0; j < matrix[i].length / 2; j++) {
                 int temp = matrix[i][j];
-                matrix[i][j] = matrix[i][matrix[i].length-1-j];
-                matrix[i][matrix[i].length-1-j] = temp;
+                matrix[i][j] = matrix[i][matrix[i].length - 1 - j];
+                matrix[i][matrix[i].length - 1 - j] = temp;
+            }
+        }
+    }
+
+    public static void ReverseColumn(int[][] matrix) {
+        for (int column = 0; column < matrix.length; column++) {
+            for (int row = 0; row < matrix.length / 2; row++) {
+                int temp = matrix[row][column];
+                matrix[row][column] = matrix[matrix.length - 1 - row][column];
+                matrix[matrix.length - 1 - row][column] = temp;
             }
         }
     }
