@@ -1,0 +1,28 @@
+package Algorithms.DataStructure.Tree.BinaryTree.TreeTraversal;
+
+import Algorithms.DataStructure.Tree.BinaryTree.BTNode;
+
+public class PostOrder {
+    public static void PostOrder(BTNode node) {
+        if (node != null) {
+            PostOrder(node.lChild);
+            PostOrder(node.rChild);
+            visit(node);
+        }
+    }
+
+    public static void visit(BTNode node) {
+        System.out.println(node.data);
+    }
+
+    public static void main(String[] args) {
+        BTNode tree = new BTNode(1);
+        tree.lChild = new BTNode(2);
+        tree.rChild = new BTNode(3);
+        tree.lChild.lChild = new BTNode(4);
+        tree.lChild.rChild = new BTNode(5);
+        tree.rChild.lChild = new BTNode(6);
+        tree.rChild.rChild = new BTNode(7);
+        PostOrder(tree);
+    }
+}
