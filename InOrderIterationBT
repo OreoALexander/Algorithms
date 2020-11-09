@@ -40,4 +40,17 @@ public class InOrderIteration {
             }
         }
     }
+     /*   public static void InOrderIteration(BTNode btNode) {
+        Stack<BTNode> stack = new Stack<BTNode>();
+        while (btNode != null || !stack.isEmpty()) {
+            if (btNode != null) {
+                stack.add(btNode);
+                btNode = btNode.lChild;
+            } else {
+                btNode = stack.pop();
+                visit(btNode);
+                btNode = btNode.rChild;
+            }
+        }
+    }*/
 }
