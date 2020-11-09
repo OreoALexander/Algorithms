@@ -1,0 +1,13 @@
+package Algorithms.DataStructure.Tree.BinaryTree;
+
+public class BTNode {
+    public int data;
+    public BTNode lChild;
+    public BTNode rChild;
+
+    public BTNode(int value) {
+        data = value;
+        lChild = rChild = null;
+    }
+}
+
