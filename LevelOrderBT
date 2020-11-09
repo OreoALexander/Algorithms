@@ -1,0 +1,34 @@
+package Algorithms.DataStructure.Tree.BinaryTree.TreeTraversal;
+
+import Algorithms.DataStructure.Tree.BinaryTree.BTNode;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class LevelOrder {
+    public static void LevelOrder(BTNode node) {
+        Queue<BTNode> quene = new LinkedList<BTNode>();
+        quene.add(node);
+        while (!quene.isEmpty()) {
+            System.out.println(quene.peek().data);
+            BTNode btNode = quene.poll();
+            if (btNode.lChild != null) {
+                quene.add(btNode.lChild);
+            }
+            if (btNode.rChild != null) {
+                quene.add(btNode.rChild);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        BTNode tree = new BTNode(1);
+        tree.lChild = new BTNode(2);
+        tree.rChild = new BTNode(3);
+        tree.lChild.lChild = new BTNode(4);
+        tree.lChild.rChild = new BTNode(5);
+        tree.rChild.lChild = new BTNode(6);
+        tree.rChild.rChild = new BTNode(7);
+        LevelOrder(tree);
+    }
+}
