@@ -1,0 +1,14 @@
+#include <stdio.h>
+
+int main(){
+    double c;
+    float f = 0.0;
+    int i;
+    for(i<=0;i<=3;i++){
+        printf("please put the F");
+        scanf("%f",&f);
+        c=5*(f-32.0)/9;
+        printf("when F is %5.2f,T is %5.2f\n",f,c);
+    }
+}
+// note that %5.2f have two functions : 1 occupy the position 2 keep two numbers float ! 
