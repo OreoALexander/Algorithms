@@ -1,0 +1,38 @@
+package Algorithms;
+
+public class BrutePatternMatching {
+    public static void main(String[] args) {
+        String pattern = "abc";
+        String original = "aaabcddae";
+        /*  brutePatternMatch(pattern, original);*/
+        brutePatternMatchModified(pattern, original);
+    }
+
+    static void brutePatternMatch(String pattern, String original) {
+        for (int i = 0; i < original.length(); i++) {
+            if (pattern.charAt(0) == original.charAt(i)) {
+                for (int j = 1; j < pattern.length(); j++) {
+                    if (pattern.charAt(j) != original.charAt(i + j)) {
+                        break;
+                    }
+                    if (j == pattern.length() - 1) {
+                        System.out.println("find the position is " + i);
+                    }
+                }
+            }
+        }
+    }
+
+    static void brutePatternMatchModified(String pattern, String original) {
+        for (int i = 0; i < original.length(); i++) {
+            int j = 0;
+            while (original.charAt(i + j) == pattern.charAt(j) && (i + j) < original.length()) {
+                j++;
+                if (j == pattern.length() - 1) {
+                    System.out.println("find the position is " + i);
+                    break;
+                }
+            }
+        }
+    }
+}
