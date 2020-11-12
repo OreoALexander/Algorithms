@@ -1,0 +1,58 @@
+package Algorithms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class NArrangement {
+    public static void main(String[] args) {
+        int[] originalArray = {1, 2, 3, 4};
+        boolean[] company = new boolean[originalArray.length];
+        List<List<Integer>> result = Narrangement(originalArray, company, 0);
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println(result.get(i));
+        }
+/**        List<List<Integer>> result = new ArrayList<>();
+ List<List<Integer>> listNeedToLink = new ArrayList<>();
+ List<Integer> listA = new ArrayList<>();
+ listA.add(6);
+ listA.add(5);
+ List<Integer> listB = new ArrayList<>();
+ listB.add(3);
+ listB.add(4);
+ listNeedToLink.add(listA);
+ listNeedToLink.add(listB);
+ createList(listNeedToLink, 1, result);*/
+    }
+
+    static void createList(List<List<Integer>> listNeedToLink, int linkNode, List<List<Integer>> result) {
+        for (int i = 0; i < listNeedToLink.size(); i++) {
+            listNeedToLink.get(i).add(0, linkNode);
+            result.add(listNeedToLink.get(i));
+        }
+
+    }
+
+    static List<List<Integer>> Narrangement(int[] originalArray, boolean[] company, int labelNumber) {
+        int i = 0;
+        List<List<Integer>> result = new ArrayList<>();
+        while (i < originalArray.length) {
+            if (company[i] != true) {
+                if (labelNumber == originalArray.length - 1) {
+                    List<Integer> singleNumber = new ArrayList<>();
+                    singleNumber.add(originalArray[i]);
+                    result.add(singleNumber);
+                    return result;
+                } else {
+                    labelNumber++;
+                    company[i] = true;
+                    createList(Narrangement(originalArray, company, labelNumber), originalArray[i], result);
+                    labelNumber--;
+                    company[i] = false;
+                }
+            }
+            i++;
+        }
+        return result;
+    }
+
+}
