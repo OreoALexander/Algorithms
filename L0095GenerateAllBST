@@ -1,0 +1,98 @@
+package Algorithms.LeetCode;
+
+import Algorithms.DataStructure.Tree.BinaryTree.BTNode;
+import Algorithms.DataStructure.Tree.BinaryTree.TreeTraversal.LevelOrder;
+import com.sun.source.tree.Tree;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
+public class L0095GenerateAllBST {
+    public static class TreeNode {
+        int val;
+        TreeNode lChild;
+        TreeNode rChild;
+
+        TreeNode() {
+
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+            this.lChild = null;
+            this.rChild = null;
+        }
+
+        TreeNode(int val, TreeNode lChild, TreeNode rChild) {
+            this.val = val;
+            this.lChild = lChild;
+            this.rChild = rChild;
+        }
+    }
+
+    public static void main(String[] args) {
+        List<TreeNode> resultTreeList = generateBST(1, 4);
+
+        for (int i = 0; i < resultTreeList.size(); i++) {
+            LevelOrder(resultTreeList.get(i));
+            System.out.println("++++++++++++");
+        }
+
+       /* List<TreeNode> resultTreeList = new ArrayList<>();
+        TreeNode root = new TreeNode(2);
+        resultTreeList.add(root);
+        LevelOrder(resultTreeList.get(0));*/
+
+
+    }
+
+    public static List<TreeNode> generateBST(int low, int high) {
+        List<TreeNode> resultTreeList = new ArrayList<>();
+        if (low == high) {
+            TreeNode rootNode = new TreeNode(low);
+            List<TreeNode> singleNode = new ArrayList<>();
+            singleNode.add(rootNode);
+            return singleNode;
+        }
+        if (low > high || high < low) {
+            List<TreeNode> singleNode = new ArrayList<>();
+            singleNode.add(null);
+            return singleNode;
+        }
+        for (int i = low; i <= high; i++) {
+            resultTreeList.addAll
+                    (mergeSubTreeWithRoot(generateBST(low, i - 1), generateBST(i + 1, high), i));
+        }
+        return resultTreeList;
+    }
+
+    public static List<TreeNode> mergeSubTreeWithRoot(List<TreeNode> leftChildTree, List<TreeNode> rightChildTree, int root) {
+        List<TreeNode> resultTreeList = new ArrayList<>();
+        for (int i = 0; i < leftChildTree.size(); i++) {
+            for (int j = 0; j < rightChildTree.size(); j++) {
+                TreeNode rootNode = new TreeNode(root);
+                rootNode.lChild = leftChildTree.get(i);
+                rootNode.rChild = rightChildTree.get(j);
+                resultTreeList.add(rootNode);
+            }
+        }
+        return resultTreeList;
+    }
+
+    public static void LevelOrder(TreeNode node) {
+        Queue<TreeNode> quene = new LinkedList<TreeNode>();
+        quene.add(node);
+        while (!quene.isEmpty()) {
+            System.out.println(quene.peek().val);
+            TreeNode TreeNode = quene.poll();
+            if (TreeNode.lChild != null) {
+                quene.add(TreeNode.lChild);
+            }
+            if (TreeNode.rChild != null) {
+                quene.add(TreeNode.rChild);
+            }
+        }
+    }
+}
