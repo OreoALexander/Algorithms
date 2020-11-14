@@ -1,0 +1,26 @@
+package Algorithms.LeetCode;
+
+public class L0096GetTheNumberOfDifferentBST {
+    public static void main(String[] args) {
+        System.out.println(getResult(3));
+    }
+
+    public static int getResult(int N) {
+        int result = getTheNumber(1, N);
+        return result;
+    }
+
+    public static int getTheNumber(int low, int high) {
+        int allPossibility = 0;
+        if (low == high) {
+            return 1;
+        }
+        if (low > high || high < low) {
+            return 1;
+        }
+        for (int i = low; i <= high; i++) {
+            allPossibility = allPossibility + getTheNumber(low, i - 1) * getTheNumber(i+ 1, high);
+        }
+        return allPossibility;
+    }
+}
