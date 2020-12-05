@@ -1,0 +1,35 @@
+package Algorithms.Sort;
+
+public class QuickSortVersionYan {
+    public static void main(String[] args) {
+        int[] array = {4, 1, 3, 2, 6, 5, 56, 2,18,4,20,10};
+        quickSort(array, 0, array.length - 1);
+        for (int i = 0; i < array.length; i++) {
+            System.out.print(array[i] + " ");
+        }
+    }
+
+    public static void quickSort(int[] array, int left, int right) {
+        if (left < right) {
+            int q = partition(array, left, right);
+            quickSort(array, left, q - 1);
+            quickSort(array, q + 1, right);
+        }
+    }
+
+    public static int partition(int[] array, int low, int high) {
+       int target = array[low];
+       while(low<high){
+           while(low<high && array[high]>target){
+               high--;
+           }
+           array[low] = array[high];
+           while(low<high && array[low]<=target){
+               low++;
+           }
+           array[high]=array[low];
+       }
+       array[low] = target;
+       return low;
+    }
+}
