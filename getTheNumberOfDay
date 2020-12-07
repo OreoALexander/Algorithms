@@ -1,0 +1,35 @@
+#include "stdio.h"
+
+struct date {
+    int month;
+    int year;
+    int day;
+};
+
+int main() {
+    date mydate;
+    int days[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int i, count = 0;
+    printf("the format is yyyy,mm,dd :");
+    scanf("%d, %d, %d", &mydate.year, &mydate.month, &mydate.day);
+    if (mydate.year < 1 || mydate.month < 1 || mydate.month > 12 || mydate.day < 1 || mydate.day > 31) {
+        printf("wrong input !  ");
+        return -1;
+    }
+
+    if (mydate.year % 4 == 0) {
+        days[2] = 29;
+    }
+
+    if (mydate.day > days[mydate.month]) {
+        printf("wrong input days!  ");
+        return -2;
+    }
+
+    for (int i = 1; i <= mydate.month; i++) {
+        count = count + days[i];
+    }
+    count = count + mydate.day;
+    printf("input is corresponding to %d\n", count);
+
+}
