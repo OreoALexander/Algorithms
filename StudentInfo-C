@@ -1,0 +1,55 @@
+#include "stdio.h"
+
+#define N 3
+struct stu {
+    long stu_no;
+    char name[80];
+    char sex;
+    float score1;
+    float score2;
+    float score3;
+} student[N];
+
+int main() {
+    int i, max_num = 0;
+    float score, max_score;
+    for (i = 0; i < N; i++) {
+        printf("input the %d student info :\n", i + 1);
+        printf("id card:");
+        scanf("%d", &student[i].stu_no);
+        printf("name:");
+        scanf("%s", &student[i].name);
+        printf(" sex:");
+        scanf("%s", &student[i].sex);
+
+        printf("score1 :");
+        scanf("%f", &student[i].score1);
+        printf("score2 :");
+        scanf("%f", &student[i].score2);
+        printf("score3 :");
+        scanf("%f", &student[i].score3);
+    }
+
+    max_score = student[max_num].score1 + student[max_num].score2 + student[max_num].score3;
+    for (int i = 1; i < N; i++) {
+        if (student[i].score1 + student[i].score2 + student[i].score3 > max_score) {
+            max_score = student[i].score1 + student[i].score2 + student[i].score3;
+            max_num = i;
+        }
+    }
+
+    printf("best student info ! \n");
+    printf("id,name,sex,score1 ,score2,score3\n");
+    printf("%1d %5s %5c %10.1f %10.1f %10.1f \n\n", student[max_num].stu_no, student[max_num].name, student[max_num].sex,
+           student[max_num].score1, student[max_num].score2, student[max_num].score3);
+
+    for(int i = 0;i<N;i++){
+        if(student[i].score1<60||student[i].score2<60||student[i].score3<60){
+            printf("the not good student %s info ! \n",student[i].name);
+            printf("id,name,sex,score1 ,score2,score3\n");
+            printf("%1d %5s %5c %10.1f %10.1f %10.1f \n\n", student[i].stu_no, student[i].name, student[i].sex,
+                   student[i].score1, student[i].score2, student[i].score3);
+        }
+    }
+
+};
