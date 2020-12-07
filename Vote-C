@@ -1,0 +1,45 @@
+#include "stdio.h"
+#include "string.h"
+
+#define N 5
+
+struct candidate {
+    char name[20];
+    int vote;
+};
+
+int main() {
+    struct candidate man[N] = {{"mike",  0},
+                               {"Oreo",  0},
+                               {"Merry", 0},
+                               {"Tiger", 0},
+                               {"Lion",  0}};
+
+    char votename[20];
+    int i;
+
+    printf("\n------------------\n");
+    for (int i = 0; i < N; i++) {
+        printf("%s -", man[i].name);
+    }
+    printf("\n------------------\n");
+
+    while (true) {
+        scanf("%s", votename);
+        if(strcmp(votename, "end")==0){
+            break;
+        }
+        for (i = 0; i < N; i++) {
+            if (strcmp(votename, man[i].name) == 0) {
+                man[i].vote++;
+            }
+        }
+    }
+
+    printf("\n------------------\n");
+    printf("output the result !\n");
+    for (i = 0; i < N; i++) {
+      printf("name : %-10s vote : %d\n ",man[i].name,man[i].vote);
+    }
+
+}
