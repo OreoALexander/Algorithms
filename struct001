@@ -1,0 +1,44 @@
+#include "stdio.h"
+
+struct date {
+    int month;
+    int year;
+};
+
+struct Book {
+    char book_name[80];
+    char author[30];
+    struct date publish_date;
+    long register_num;
+    float price;
+};
+
+int main() {
+    Book book;
+    printf("input the book info:\n");
+    printf("book_name:");
+    scanf("%s", &book.book_name);
+
+    printf("author:");
+    scanf("%s", &book.author);
+
+    printf("date.year:");
+    scanf("%d", &book.publish_date.year);
+
+    printf("date.month:");
+    scanf("%d", &book.publish_date.month);
+
+    printf("register num:");
+    scanf("%d", &book.register_num);
+
+    printf("price:");
+    scanf("%f", &book.price);
+
+    printf("display!\n");
+    
+    printf("book_name:%s\n", book.book_name);
+    printf("author:%s\n", book.author);
+    printf("date:year %d month %d\n", book.publish_date.year, book.publish_date.month);
+    printf("register_num:%d\n", book.register_num);
+    printf("price:%s\n", book.price);
+}
