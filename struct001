@@ -7,7 +7,7 @@ struct date {
 
 struct Book {
     char book_name[80];
-    char author[30];
+    char author[80];
     struct date publish_date;
     long register_num;
     float price;
@@ -35,10 +35,10 @@ int main() {
     scanf("%f", &book.price);
 
     printf("display!\n");
-    
+
     printf("book_name:%s\n", book.book_name);
     printf("author:%s\n", book.author);
     printf("date:year %d month %d\n", book.publish_date.year, book.publish_date.month);
     printf("register_num:%d\n", book.register_num);
-    printf("price:%s\n", book.price);
+    printf("price:%5.2f\n", book.price);
 }
