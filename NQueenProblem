@@ -1,0 +1,111 @@
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 1 create the mathematical model
+ * 1 ok if we encounter a problem with the vector solution space and the constraint
+ * we should think the constraint and its impact on both the vector space and the
+ * range space which variable in the vector can be assigned with number in the range space !
+ * and the constraint can compress both of them in the different way !
+ * so the different view of the vector space according to how do you understand the relationship between the
+ * constraint and the variable and the range ! which is great !
+ * so the  1 the constraint is the style of the queen movement which impact the selection
+ * so we can get if solution exists! which must be one row just one queen and
+ * we can compress the vector
+ * and the boundary case !
+ * <p>
+ * 2 so the vector v1 to v8 the index indicates the row number and the value of the vi is the
+ * column of the queen . so i and vi indicates the position .
+ * <p>
+ * 3 after we choose or make choice with one vi and we compress the solution vector to a smaller one
+ * with the vi value and the constraint we find the range of the vi others compressed either !
+ * <p>
+ * 2  what is the node of the selection tree the search tree !
+ * the position of the queen ---- more specific row i -------the column of the queen i
+ * <p>
+ * 3  implementation
+ * 1 first the compress process. if we put one vi = j and yes for the next vi not j not j+1 not j-1
+ * and the impact also for more deeper layer ! so how to describe it ?
+ * 1 we can label the individual square but a little bit of overwhelming !
+ * 2 we can record the previous N layer queen position and transfer it to the current layer to
+ * use the constraint with the column and the diagonal  and the boundary to calculate
+ * the available range set of the xk !
+ * so that is the modification !
+ */
+
+public class NQueenProblem {
+    public static void main(String[] args) {
+        int N = 8;
+        int[] ColumnIndex = new int[N];
+        for (int i = 0; i < N; i++) {
+            ColumnIndex[i] = -1;
+        }
+        searchArrangement(ColumnIndex,0,N);
+
+    }
+
+    public static void searchArrangement(int[] ColumnIndex, int row, int N) {
+
+        if(row==8){
+            displayResult(ColumnIndex,N);
+            return;
+        }
+
+        List<Integer> AvailableColumn = findAvailableColumn(ColumnIndex, row, N);
+        for (int i = 0; i < AvailableColumn.size(); i++) {
+            ColumnIndex[row] = AvailableColumn.get(i);
+            row++;
+            searchArrangement(ColumnIndex, row, N);
+            row--;
+            ColumnIndex[row] = -1;
+        }
+        return;
+    }
+
+    public static void displayResult(int[] ColumnIndex,int N){
+        int[][] Matrix = new int[N][N];
+        for (int row = 0; row < N; row++) {
+            for (int column = 0; column < N; column++) {
+                Matrix[row][column] = 0;
+            }
+        }
+        for(int i =0;i<N;i++){
+            Matrix[i][ColumnIndex[i]]=6;
+        }
+        System.out.println("We make it!");
+        for (int row = 0; row < N; row++) {
+            for (int column = 0; column < N; column++) {
+                System.out.printf("%-2d",Matrix[row][column]);
+            }
+            System.out.println();
+        }
+    }
+
+    public static List<Integer> findAvailableColumn(int[] ColumnIndex, int row, int N) {
+        List<Integer> AvailableColumn = new ArrayList<>();
+        int[] labelArray = new int[N];
+        for (int i = 0; i < N; i++) {
+            labelArray[i] = 0;
+        }
+        for (int i = 0; i < N; i++) {
+            if (ColumnIndex[i] != -1) {
+                labelArray[ColumnIndex[i]] = 1;
+                int newY1 = ColumnIndex[i] + row;
+                int newY2 = ColumnIndex[i] - row;
+                if (newY1 < N) {
+                    labelArray[newY1] = 1;
+                }
+                if (newY2 >= 0) {
+                    labelArray[newY2] = 1;
+                }
+            }
+        }
+        for (int i = 0; i < N; i++) {
+            if (labelArray[i] == 0) {
+                AvailableColumn.add(i);
+            }
+        }
+        return AvailableColumn;
+    }
+
+}
