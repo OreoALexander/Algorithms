@@ -1,0 +1,118 @@
+package Algorithms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * ok  now I is the King and I really what to visit my new territory . and yes it is a N * N area and
+ * yes I have some constraint . the walk way of the king .
+ * now let's do the math model .
+ * 1 the output is the table with number each different from each other from 1 to N * N
+ * and yes . every area I just went once and I want to visit all the areas in the constraint
+ * of my movement style
+ * 2 the variable of the problem and  the  solution space .and how to get the solution space .
+ * which we can get from the brute way . suppose we have no movement style constraint . so
+ * we see the all condition will be 63 ! which is very overwhelming number and we need to do some
+ * improvement . so the difference between the brute and the backtrace is in the backtrace we use the
+ * constraint in a increment way so that in some condition we find we can not get the desire output .we
+ * abandon this situation and backtrace into the previous selection place to do another selection.so we use
+ * the constraint and you know the boundary case to subtract a lot of unnecessary cases .so we improve the performance
+ * <p>
+ * so the vector cluster which may contain the right solution is a 64 component vector . xk k form 0 to 63 .
+ * so the k the index of the variable is depends on the index of the matrix row and column .
+ * suppose the N = 8 so the k = 8*i+j .
+ * and we also need to get the i and j from the k . so i = k/8  and  j = k % 8 that is very great ！
+ * <p>
+ * and the range of the xi is from (0 to 63)--- which indicates the order of the visit !
+ * but with the constraint every time when we visit a xj and give the constraint on the other xi so the range decrease
+ * compress ! and after compress for the next j is j+1 !
+ * <p>
+ * and the constraint is the style of the king movement and the boundary case . ok
+ * <p>
+ * now we finish the model
+ * we need to construct the implementation !
+ * 1 we can construct a selection tree ! the node represent yes the king is right now on the position . and we give the
+ * range to the xk k represent the position .
+ * 2 use the DFS to do the search . if no child branch child nodes but the depth of the routine is not 63 return . back
+ * trace to the previous layer !
+ * if for one routine reach the 63 . display it !
+ * so we should write a display method .
+ * which is simple just
+ * two loop
+ * and print the matrix !
+ * <p>
+ * so 1 we need to construct a method to find the next selection position of the king .
+ * 1 so we need to describe the movement that is great if we use the xMove[] yMove[] array to describe it
+ * 2 we should consider the boundary !
+ * 2 after we find the next possible position of the king we list them . and DFS()
+ * 3 we have two variable to describe the method
+ * 1 the position index k
+ * 2 the number .
+ * 4 how to backTrace ! yes every time we need the k and the order to modify the myland matrix .
+ * how to modify if the
+ */
+public class BackTracking_TheKnightTourProblem {
+    public static void main(String[] args) {
+        int N = 8;
+        int[][] MyLand = new int[N][N];
+        for (int row = 0; row < N; row++) {
+            for (int column = 0; column < N; column++) {
+                MyLand[row][column] = -1;
+            }
+        }
+        searchPath(MyLand, 0, 0,N);
+
+    }
+
+    public static void searchPath(int[][] MyLand, int order, int positionIndex,int N) {
+        int row = positionIndex / N;
+        int column = positionIndex % N;
+        MyLand[row][column] = order;
+        if (order == N*N-1) {
+            System.out.println("we find it !!!! +++++++++++++++++++++++++++++++++++++++++++++++++++");
+            Display(MyLand);
+            MyLand[row][column] = -1;
+            return;
+        }
+        List<Integer> nextMove = findNextMove(MyLand, positionIndex,N);
+        if (nextMove.size() == 0) {
+            MyLand[row][column] = -1;
+            return;
+        }
+        order = order + 1;
+        for (int i = 0; i < nextMove.size(); i++) {
+            searchPath(MyLand, order, nextMove.get(i),N);
+        }
+        MyLand[row][column] = -1;;
+        return;
+    }
+
+    private static List<Integer> findNextMove(int[][] MyLand, int positionIndex,int N) {
+        List<Integer> nextMove = new ArrayList<>();
+        int[] xMove = {2, 1, 2, 1, -2, -1, -2, -1};
+        int[] yMove = {1, 2, -1, -2, 1, 2, -1, -2};
+        int row = positionIndex / N;
+        int column = positionIndex % N;
+        for (int i = 0; i < N; i++) {
+            int newX = row + xMove[i];
+            int newY = column + yMove[i];
+            if (newX >= 0 && newX < N && newY >= 0 && newY < N && MyLand[newX][newY] == -1) {
+                nextMove.add(newX * N + newY);
+            }
+        }
+        return nextMove;
+    }
+
+    private static void Display(int[][] MyLand) {
+        for (int row = 0; row < MyLand.length; row++) {
+            for (int column = 0; column < MyLand[row].length; column++) {
+                System.out.printf("%-5d",MyLand[row][column]);
+            }
+            System.out.println();
+        }
+    }
+
+}
+
+
+
