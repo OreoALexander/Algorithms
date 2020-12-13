@@ -30,14 +30,18 @@ import java.util.List;
  */
 public class KnapStackCount_BackTracing {
     public static void main(String[] args) {
-        int[] gift = {150, 100, 50, 40, 70, 20, 75};
-        int[] numberOfGift = {0, 0, 0, 0, 0, 0, 0};
-        searchResult(gift, 0, 300, numberOfGift);
+        int[] gift = {150, 100, 50, 40, 70, 20, 75,30};
+        int[] numberOfGift = {0, 0, 0, 0, 0, 0, 0,0};
+        int[] count = {0};
+        searchResult(gift, 0, 300, numberOfGift,count);
+        System.out.println();
+        System.out.println(count[0]);
     }
 
-    public static void searchResult(int[] gift, int giftId, int MaxMoney, int[] numberOfGift) {
+    public static void searchResult(int[] gift, int giftId, int MaxMoney, int[] numberOfGift,int[] count) {
 
         if (MaxMoney == 0) {
+            count[0]++;
             System.out.println();
             for (int i = 0; i < numberOfGift.length; i++) {
                 System.out.printf("%-5d", numberOfGift[i]);
@@ -45,7 +49,7 @@ public class KnapStackCount_BackTracing {
             return;
         }
 
-        if (giftId == 7) {
+        if (giftId == 8) {
             return;
         }
 
@@ -55,7 +59,7 @@ public class KnapStackCount_BackTracing {
             MaxMoney = OriginalMaxMoney - gift[giftId] * availableChooseNum.get(i);
             numberOfGift[giftId] = availableChooseNum.get(i);
             giftId++;
-            searchResult(gift, giftId, MaxMoney, numberOfGift);
+            searchResult(gift, giftId, MaxMoney, numberOfGift,count);
             giftId--;
             numberOfGift[giftId] = 0;
         }
