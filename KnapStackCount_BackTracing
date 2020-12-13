@@ -1,0 +1,75 @@
+package Algorithms;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * 1 the problem is ok now our company will give us some git for the festival
+ * and give me 200 yuan . and I am a really reasonable man so I will spend all the money to
+ * exchange for the gifts . so I will spend all the money yes all the money !
+ * <p>
+ * 2 here are n gift which have different values --- yuan
+ * but have many you know store .
+ * <p>
+ * 3 so give me all the selection to spend all the money !
+ * <p>
+ * create the Model
+ * 1 the vector is the xi x1 to xi . i indicates the id of the corresponding gift
+ * and the value of the xi is the number  we choose for the i gift !
+ * ok and the output is we need to count the selection number which
+ * we spend all the 200 yuan and the different combination of the different gift with
+ * different numbers
+ * <p>
+ * 2 the constraint is just the 200 the bag
+ * <p>
+ * 3 the range of the xi depends on the vi of the gift and the upper bound 200 yuan
+ * so xi <= 200/vi and so on
+ * that is the initial condition !
+ * and if we choose one gift i xi+1 so we compress the upper so impact all the other gift upper number which we
+ * can choose !
+ */
+public class KnapStackCount_BackTracing {
+    public static void main(String[] args) {
+        int[] gift = {150, 100, 50, 40, 70, 20, 75};
+        int[] numberOfGift = {0, 0, 0, 0, 0, 0, 0};
+        searchResult(gift, 0, 300, numberOfGift);
+    }
+
+    public static void searchResult(int[] gift, int giftId, int MaxMoney, int[] numberOfGift) {
+
+        if (MaxMoney == 0) {
+            System.out.println();
+            for (int i = 0; i < numberOfGift.length; i++) {
+                System.out.printf("%-5d", numberOfGift[i]);
+            }
+            return;
+        }
+
+        if (giftId == 7) {
+            return;
+        }
+
+        List<Integer> availableChooseNum = availableChooseNum(gift, giftId, MaxMoney);
+        int OriginalMaxMoney = MaxMoney;
+        for (int i = 0; i < availableChooseNum.size(); i++) {
+            MaxMoney = OriginalMaxMoney - gift[giftId] * availableChooseNum.get(i);
+            numberOfGift[giftId] = availableChooseNum.get(i);
+            giftId++;
+            searchResult(gift, giftId, MaxMoney, numberOfGift);
+            giftId--;
+            numberOfGift[giftId] = 0;
+        }
+        return;
+    }
+
+    public static List<Integer> availableChooseNum(int[] gift, int giftId, int MaxMoney) {
+        List<Integer> availableChooseNum = new ArrayList<>();
+        int value = gift[giftId];
+        int maxNum = MaxMoney / value;
+        for (int i = 0; i <= maxNum; i++) {
+            availableChooseNum.add(i);
+        }
+        return availableChooseNum;
+    }
+
+}
