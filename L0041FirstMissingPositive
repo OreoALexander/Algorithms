@@ -1,0 +1,54 @@
+package Algorithms.LeetCode;
+
+/**
+ * 1 when we talk about you know the
+ * extreme problem . so compare to the math
+ * the local extreme problem ok ? so here are a set which is the value set
+ * what we do is just select or sort the value set and find the
+ * local extreme .
+ * so when when talk about the min or max --- further
+ * kth largest or kth min !
+ * the first step is always to find the you know . the set where the solution localize !
+ * <p>
+ * 2 so in this problem . we find that two parameter to define the
+ * you know the solution set ! and we can change the problem ! to ok now you need to find
+ * all the positive integer .
+ * so in some kind of the way that is quite similar to the Constraint Satisfaction problem .
+ * ok ! and the constraint is when we add a number the possible solution set the number will be reduced
+ * by one !
+ * <p>
+ * 3 ok now we finish the analysis .
+ * ok so when we traverse the array .every time we find an integer . we eliminate it in the solution set .
+ * so we also use the you know the label technique ! ok
+ * but actually we don't have the infinite length array .for our problem we just need to find the smallest
+ * one !
+ * so we find we can create an array with length = input array length + 2 ; 0 for the easy implementation !
+ * and we do the label !
+ * and at last we traverse the label array to find the first number which is not labeled !
+ */
+public class L0041FirstMissingPositive {
+    public static void main(String[] args) {
+        int[] input = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int result = findFirstMinPositive(input);
+        System.out.println("result  " + result);
+    }
+
+    public static int findFirstMinPositive(int[] input) {
+        int[] labelArray = new int[input.length + 2];
+        for (int i = 0; i < labelArray.length; i++) {
+            labelArray[i] = 0;
+        }
+        labelArray[0] = 1;
+        for (int j = 0; j < input.length; j++) {
+            if (input[j] <= labelArray.length - 1) {
+                labelArray[input[j]] = 1;
+            }
+        }
+        for (int k = 0; k < labelArray.length; k++) {
+            if (labelArray[k] == 0) {
+                return k;
+            }
+        }
+        return -1;
+    }
+}
