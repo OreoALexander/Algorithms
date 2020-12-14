@@ -1,0 +1,47 @@
+package Algorithms.JavaFundamentalApi.Arrays;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class CustomSort {
+    static class Student
+    {
+        int roll;
+        String name, address;
+        public Student(int roll, String name,
+                       String address)
+        {
+            this.roll = roll;
+            this.name = name;
+            this.address = address;
+        }
+        public String toString()
+        {
+            return this.roll + " " + this.name +
+                    " " + this.address;
+        }
+    }
+
+    static class SortByRoll implements Comparator<Student>
+    {
+        public int compare(Student a, Student b)
+        {
+            return b.roll - a.roll;
+        }
+    }
+
+    public static void main(String[] args) {
+        Student[] array = {
+                new Student(500, "Alex", "US"),
+                new Student(200, "Lion", "UK"),
+                new Student(1000, "Albert", "German")
+        };
+        System.out.println("Unsorted");
+        for (int i=0; i<array.length; i++)
+            System.out.println(array[i]);
+        Arrays.sort(array, new SortByRoll());
+        System.out.println("\nSorted by roll");
+        for (int i=0; i<array.length; i++)
+            System.out.println(array[i]);
+    }
+}
