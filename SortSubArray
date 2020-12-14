@@ -1,0 +1,17 @@
+package Algorithms.JavaFundamentalApi.Arrays;
+
+import java.util.Arrays;
+/**
+ * in this case you see ?
+ * 1 Arrays.sort we put the array and the range of the subString
+ * 2 contain the first position but not contain the last position !
+ *   that is the index . so the range of the index is 0 to the length!   note that !
+ * 3 and we just sort the subString all the elements in the array is the same as usual !
+ * */
+public class SortSubArray {
+    public static void main(String[] args) {
+        int[] arr = {13, 7, 6, 45, 21, 9, 2, 100};
+        Arrays.sort(arr, 1, 5);
+        System.out.printf(Arrays.toString(arr));
+    }
+}
