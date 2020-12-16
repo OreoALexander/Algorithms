@@ -1,0 +1,102 @@
+package Algorithms.DynamicProgramming;
+
+/**
+ * 1 the same problem .
+ * given 200 yuan and some options of some gifts
+ * find the number of the all selections to use all 200yuan and every gift have enough stack
+ * 2 but this time we use the different math model
+ * we will use the DP to solve this problem
+ * 0 why we can use the DP ?
+ * 1 define the state
+ * f() what parameter define the you know the problem
+ * 1 the gift options number K and with each k here is the vk represent the money of this gift!
+ * 2 the total money 200
+ * yes DP can solve the count problem yes
+ * so the state f(k,200) return is the number of the selections !
+ * because see this f(5,200) contain the f(2,100) and f(4,150) contain f(2,100) too so the overlap construction
+ * <p>
+ * 2  find the selection variable to do the state transition!
+ * ok select kth gift and don't select it
+ * will let the f(k-1,200) and f(k,200-vk) yes we find the state change
+ * and yes the count f(k,200) = f(k-1,200) + f(k,200-vk)
+ * and optimal construction is  f(k,200) = f(k-1,200) + f(k,200-vk)
+ * that is great
+ * 3 write code recursive or do the iteration memory!
+ */
+public class package Algorithms.DynamicProgramming;
+
+/**
+ * 1 the same problem .
+ * given 200 yuan and some options of some gifts
+ * find the number of the all selections to use all 200yuan and every gift have enough stack
+ * 2 but this time we use the different math model
+ * we will use the DP to solve this problem
+ * 0 why we can use the DP ?
+ * 1 define the state
+ * f() what parameter define the you know the problem
+ * 1 the gift options number K and with each k here is the vk represent the money of this gift!
+ * 2 the total money 200
+ * yes DP can solve the count problem yes
+ * so the state f(k,200) return is the number of the selections !
+ * because see this f(5,200) contain the f(2,100) and f(4,150) contain f(2,100) too so the overlap construction
+ * <p>
+ * 2  find the selection variable to do the state transition!
+ * ok select kth gift and don't select it
+ * will let the f(k-1,200) and f(k,200-vk) yes we find the state change
+ * and yes the count f(k,200) = f(k-1,200) + f(k,200-vk)
+ * and optimal construction is  f(k,200) = f(k-1,200) + f(k,200-vk)
+ * that is great
+ * 3 write code recursive or do the iteration memory!
+ */
+public class KnapsackCount_DP_theDifferenceModel {
+    public static void main(String[] args) {
+        int[] gift = {150, 50,200,100};
+        int k = gift.length - 1;
+        System.out.println(findTheNumOfSelection(gift, k, 200));
+    }
+
+    public static int findTheNumOfSelection(int[] gift, int k, int money) {
+        if (money == 0) {
+            return 1;
+        }
+        if (money < 0) {
+            return 0;
+        }
+        if (k == 0) {
+            if (money == gift[k]) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        return findTheNumOfSelection(gift, k - 1, money) + findTheNumOfSelection(gift, k, money - gift[k]);
+    }
+
+}
+ {
+    public static void main(String[] args) {
+        int[] gift = {150, 50,200,100};
+        int k = gift.length - 1;
+        System.out.println(findTheNumOfSelection(gift, k, 200));
+    }
+
+    public static int findTheNumOfSelection(int[] gift, int k, int money) {
+        if (money == 0) {
+            return 1;
+        }
+        if (money < 0) {
+            return 0;
+        }
+        if (k == 0) {
+            if (money == gift[k]) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+
+        return findTheNumOfSelection(gift, k - 1, money) + findTheNumOfSelection(gift, k, money - gift[k]);
+    }
+
+}
