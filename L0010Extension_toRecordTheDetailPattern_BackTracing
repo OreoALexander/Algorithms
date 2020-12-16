@@ -1,0 +1,173 @@
+package Algorithms.LeetCode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * 1 the input is two String pattern with special symbol and the other one the ordinary String which need to be
+ * matched
+ * and the output is if the two String matches for each other ! that is the problem !
+ * <p>
+ * 2 Model
+ * 1 we find we can see this problem as the search the all the possibility in the constraint
+ * and  let the two string matches !
+ * so the interesting part is the solution set space of the xi is not static if we add more rule of the
+ * pattern .
+ * 2 but with this specific problem we find we can use the constraint to do some easy speculation and compress the
+ * space of the solution set which is good for the performance and can reduce the risk of the repeat result !
+ * 3 so with the constraint we can write a method to determine the solution space ! and we transfer the problem into our
+ * are familiar to !
+ * so what is the constraint : 1 "." can represent every arbitrary char  --- variable !  --- represent string !
+ * 2 "*" can't exist alone;
+ * “.*” can represent any number of any char combination
+ * "c*" can represent any number of "combination" include " "
+ * 3 "a" = "a"
+ * <p>
+ * so we can say the constraint can impact all the solution space and the range of the  variable
+ * so the variable of the xi represent the string
+ * the range ? is the target string !
+ * so every time xi choose the String . it compress the other choose !
+ * so we can use the back trace algorithm !
+ */
+public class L0010Extension_toRecordTheDetailPattern_BackTracing {
+    public static class SolutionSpace {
+        char[] pattern;
+        char[] target;
+
+        SolutionSpace(char[] pattern, char[] target) {
+            this.pattern = pattern;
+            this.target = target;
+        }
+
+        SolutionSpace() {
+            this.pattern = new char[]{'!'};
+        }
+
+        @Override
+        public String toString() {
+            return "SolutionSpace{" +
+                    "pattern=" + Arrays.toString(pattern) +
+                    ", target=" + Arrays.toString(target) +
+                    '}';
+        }
+    }
+
+    public static void main(String[] args) {
+        String pattern = "ca";
+        String target = "ca";
+        IsMatch(pattern, target);
+       /* List<String> availableRange = availableRangeOfSolution(findTheSolutionSpace(pattern), 0, target);
+        List<String> availableSmallerTarget = availableSmallerTargetForNextLayer(findTheSolutionSpace(pattern), 0, target);
+        for (int i = 0; i < availableRange.size(); i++) {
+            System.out.println(availableRange.get(i));
+        }
+        System.out.println("++++++++++++++++++++++++++++");
+        for (int i = 0; i < availableSmallerTarget.size(); i++) {
+            System.out.println(availableSmallerTarget.get(i));
+        }*/
+
+    }
+
+    public static void IsMatch(String pattern, String target) {
+        List<SolutionSpace> solutions = findTheSolutionSpace(pattern);
+        System.out.println(solutions.toString()+"before the search!");
+        searchMatchCase(solutions, 0, target);
+    }
+
+    public static void searchMatchCase(List<SolutionSpace> solutions, int order, String target) {
+        if(target.length()==0 && order==solutions.size()){
+            System.out.println(solutions.toString());
+            return;
+        }
+        if (order == solutions.size()) {
+            return;
+        }
+        if (target.length() == 0) {
+            return;
+        }
+
+
+        List<String> availableRange = availableRangeOfSolution(solutions, order, target);
+        System.out.println(availableRange.toString()+"order== "+order);
+        List<String> availableSmallerTarget = availableSmallerTargetForNextLayer(solutions, 0, target);
+        System.out.println(availableSmallerTarget.toString()+"order== "+order);
+        for (int i = 0; i < availableSmallerTarget.size(); i++) {
+            order++;
+            solutions.get(i).target = availableRange.get(i).toCharArray();
+            searchMatchCase(solutions, order, availableSmallerTarget.get(i));
+            order--;
+            solutions.get(i).target = null;
+        }
+        return;
+    }
+
+    /**
+     * why not we write one method which can find the Solution and give the ability to expand easily!
+     */
+    public static List<SolutionSpace> findTheSolutionSpace(String pattern) {
+        char[] patternArray = pattern.toCharArray();
+        List<SolutionSpace> solutions = new ArrayList<>();
+        int i = 0;
+        while (i < patternArray.length) {
+            if (i + 1 < patternArray.length && patternArray[i + 1] == '*') {
+                SolutionSpace solution = new SolutionSpace();
+                char[] partial = {patternArray[i], patternArray[i + 1]};
+                solution.pattern = partial;
+                solutions.add(solution);
+                i = i + 2;
+            } else {
+                SolutionSpace solution = new SolutionSpace();
+                char[] partial = {patternArray[i]};
+                solution.pattern = partial;
+                solutions.add(solution);
+                i = i + 1;
+            }
+        }
+        return solutions;
+    }
+
+    public static List<String> availableRangeOfSolution(List<SolutionSpace> solutions, int order, String target) {
+        List<String> availableRange = new ArrayList<>();
+        if (solutions.get(order).pattern.length == 1) {
+            availableRange.add(target.substring(0, 1));
+        } else if (solutions.get(order).pattern[0] == '.') {
+            for (int i = 0; i <= target.length(); i++) {
+                availableRange.add(target.substring(0, i));
+            }
+        } else {
+            char specificChar = solutions.get(order).pattern[0];
+            char[] targetArray = target.toCharArray();
+            int j = 0;
+            while (j < targetArray.length && targetArray[j] == specificChar) {
+                j++;
+            }
+            for (int i = 0; i <= j; i++) {
+                availableRange.add(target.substring(0, i));
+            }
+        }
+        return availableRange;
+    }
+
+    public static List<String> availableSmallerTargetForNextLayer(List<SolutionSpace> solutions, int order, String target) {
+        List<String> availableSmallerTarget = new ArrayList<>();
+        if (solutions.get(order).pattern.length == 1) {
+            availableSmallerTarget.add(target.substring(1));
+        } else if (solutions.get(order).pattern[0] == '.') {
+            for (int i = 0; i <= target.length(); i++) {
+                availableSmallerTarget.add(target.substring(i));
+            }
+        } else {
+            char specificChar = solutions.get(order).pattern[0];
+            char[] targetArray = target.toCharArray();
+            int j = 0;
+            while (j < targetArray.length && targetArray[j] == specificChar) {
+                j++;
+            }
+            for (int i = 0; i <= j; i++) {
+                availableSmallerTarget.add(target.substring(i));
+            }
+        }
+        return availableSmallerTarget;
+    }
+}
