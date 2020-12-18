@@ -1,0 +1,27 @@
+package Algorithms.BackTracing;
+
+/**
+ * 1 in the previous implementation we use the model
+ * xi i from the 0 to N-1 . to represent the row
+ * this is the proper usage of the you know the constraint to construct the solution set
+ * that is it ! and the value of the xi is the column of this row ! so the range is from 0 to 7 if N=8
+ * but . yes with the constraint . we find every time we assignment the  value to xi . it compress the
+ * solution set and the range of the other !
+ * both the impact the column and with the diagonal . so we calculate the available range !
+ * 2 but now we want to explore if we can use the 8*8 implementation and avoid the
+ * repetition !
+ * so the solution set is 64 vector
+ * with xi and i represent the you know the number of the rectangle !
+ * the range of the xi is just X and O which means no ! and yes ! respectively
+ * and we can set the immediately variable A to indicate this place can put a queen
+ * so when we put x0 = Y SO  all the xi in the same row and same column all ---- for what ?
+ * xi = X yes we say that is also an available model if you need to search the xi and xi range constrain to Y
+ * but search for the xi is not a good model . both for implement and for the repetition avoiding
+ * that is hard to figure out . the good implementation style is
+ * we use the xi search xi one by one . and give the value to xi and every time we
+ * just use one list to search the range available range of the xi that is easy to implement and
+ * easy to think and can avoid repetition .
+ * so when we use the 64 vector that is bad . 1 too many variable . and we can't use a very steady way to do the increment
+ */
+public class NQueenProblem_DifferentModel {
+}
