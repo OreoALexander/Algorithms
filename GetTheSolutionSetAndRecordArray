@@ -1,0 +1,57 @@
+package Algorithms.JavaFundamentalApi.StringAPI;
+
+import java.util.HashMap;
+
+public class GetTheSolutionSetAndRecordArray {
+    public static void main(String[] args) {
+        String pattern = "c*.*a.b";
+        HashMap<String, String[]> resultMap = getTheSolutionSetAndRecordArray(pattern);
+        String[] solutionSet = resultMap.get("solutionSet");
+        String[] record = resultMap.get("record");
+        System.out.println("solutionSet : ");
+        for (int j = 0; j < solutionSet.length; j++) {
+            System.out.printf("%-15s", solutionSet[j]);
+        }
+        System.out.println();
+        System.out.println("record : ");
+        for (int j = 0; j < record.length; j++) {
+            System.out.printf("%-15s", record[j]);
+        }
+    }
+
+    public static HashMap<String, String[]> getTheSolutionSetAndRecordArray(String pattern) {
+        HashMap<String, String[]> resultMap = new HashMap<>();
+        int lengthOfSet = 0;
+        int pointer = 0;
+        while (pointer < pattern.length()) {
+            if (pointer + 1 < pattern.length() && pattern.charAt(pointer + 1) == '*') {
+                pointer = pointer + 2;
+            } else {
+                pointer = pointer + 1;
+            }
+            lengthOfSet++;
+        }
+        String[] solutionSet = new String[lengthOfSet + 1];
+        String[] record = new String[lengthOfSet];
+        for (int j = 0; j < lengthOfSet; j++) {
+            record[j] = "NULL";
+        }
+        pointer = 0;
+        lengthOfSet = 0;
+        while (pointer < pattern.length()) {
+            if (pointer + 1 < pattern.length() && pattern.charAt(pointer + 1) == '*') {
+                solutionSet[lengthOfSet] = pattern.substring(pointer, pointer + 2);
+                pointer = pointer + 2;
+            } else {
+                solutionSet[lengthOfSet] = pattern.substring(pointer, pointer + 1);
+                pointer = pointer + 1;
+            }
+            lengthOfSet++;
+        }
+        solutionSet[lengthOfSet] = "";
+        resultMap.put("solutionSet", solutionSet);
+        resultMap.put("record", record);
+        return resultMap;
+    }
+
+}
