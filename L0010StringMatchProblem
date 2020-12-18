@@ -1,0 +1,50 @@
+package Algorithms.LeetCode;
+
+/**
+ * 1 ok after the torment of the backtrace for the string matching problem
+ * now we have to admit that . yes the backtrace problem maybe easy .but for this one what we need to
+ * do the computing for the solution set and we need to handle different strategies for matching
+ * using the backtrace to trace the detail --- that is just too overwhelming ! and we have to say that is
+ * totally disaster !
+ * 2 with the Dynamic programming the target is much more specific
+ * and explicit we just care about weather these two string matches or not !
+ * so we can say the state describe the problem . so f(pattern , target ) return true or false ;
+ * so 1 how to find a DP solution ?
+ * can it use the DP ? yes f(pattern -- ,target --) in the f(pattern,target ) so here are the overlap
+ * and f(p t) = f(p-,t-) + current match  only the current match == true
+ * we can go to the next stage . so boolean f(p t) = f(p-,t-) && current match .
+ * so that is just satisfy the you know DP principle
+ * current decision and the potential future cost or interest ! we need consider both of them .
+ * 2 find the state change function
+ * we need the you know the ....  selection variable to let the transfer of the state come true
+ * so the f can change to the smaller stage !
+ * so the selection variable can determine the state transfer process.
+ * so ?
+ * what is that ? here is the different match strategies
+ * 1 simple a = a
+ * 2 "." = a or b or "" !
+ * 3 c* can be different ccccccc or ""
+ * 4 .* can be sdflsdf or ""
+ * 3 so we use the selection variable to do the choice !
+ * so what match strategy we use ? that is the key point !
+ */
+public class L0010StringMatchProblem {
+    public static void main(String[] args) {
+        String pattern = ".*aa";
+        String target = "aaaa";
+        System.out.println(isMatch(pattern, target));
+
+    }
+
+    public static boolean isMatch(String pattern, String target) {
+        if (pattern.isEmpty()) return target.isEmpty();
+        boolean currentMatchSimple = (!target.isEmpty() && (pattern.charAt(0) == target.charAt(0) || pattern.charAt(0) == '.'));
+
+        if (pattern.length() >= 2 && pattern.charAt(1) == '*') {
+            return (currentMatchSimple && isMatch(pattern, target.substring(1)) || isMatch(pattern.substring(2), target));
+        } else {
+            return currentMatchSimple && isMatch(pattern.substring(1), target.substring(1));
+        }
+    }
+
+}
