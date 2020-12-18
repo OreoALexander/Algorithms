@@ -59,6 +59,13 @@ import java.util.List;
  * just at the end of the loop for the selection !
  * to the end
  * if in the end despite the display case  all other case is abandoned ! with a return ;
+ *
+ * oh my god yes the thoughts are just very great but in the implementation . the string handling just kill me
+ * and kick me ass ! that is too many detail to handle and the code become inevitable complex too much if and else
+ * and yes too much too much empty handle ! that is just disaster ! so that is just a big problem
+ * and maybe we should to learn how to trace the you know the matching or in the DP we want to know
+ * we want to know the . the array index exceed and so on problems .
+ * so we want to use the DP to get the result and use the trace method to record the match ! ?
  */
 public class StringMatchProblem_BackTracingModel {
     public static void main(String[] args) {
