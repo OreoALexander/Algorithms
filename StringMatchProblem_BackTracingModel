@@ -1,5 +1,7 @@
 package Algorithms.BackTracing;
 
+import Algorithms.JavaFundamentalApi.StringAPI.GetRangeOfVariableAndSubString;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,7 +61,7 @@ import java.util.List;
  * just at the end of the loop for the selection !
  * to the end
  * if in the end despite the display case  all other case is abandoned ! with a return ;
- *
+ * <p>
  * oh my god yes the thoughts are just very great but in the implementation . the string handling just kill me
  * and kick me ass ! that is too many detail to handle and the code become inevitable complex too much if and else
  * and yes too much too much empty handle ! that is just disaster ! so that is just a big problem
@@ -69,30 +71,24 @@ import java.util.List;
  */
 public class StringMatchProblem_BackTracingModel {
     public static void main(String[] args) {
-        String pattern = ".*.*a";
-        String target = "ccccccccbbbbbbba";
-
-        HashMap<String, String[]> resultMap = getSolutionSetAndRecordArray(pattern);
-        String[] record = resultMap.get("record");
-        String[] solutionSet = resultMap.get("solutionSet");
-
-        displayInfo(target, solutionSet);
+        String pattern = ".*.*c*a..";
+        String target = "abcdccab";
+        String[] record = {"NULL", "NULL", "NULL", "NULL", "NULL", "NULL"};
+        String[] solutionSet = {".*", ".*", "c*", "a", ".", ".", ""};
         searchAvailableMatch(solutionSet, record, target, 0);
-    }
 
-    private static void displayInfo(String target, String[] solutionSet) {
-        System.out.println("target : " + target);
-        System.out.print("solutionSet ： ");
-        for (int i = 0; i < solutionSet.length; i++) {
-            System.out.printf("%-5s", solutionSet[i]);
-        }
-        System.out.println();
     }
 
     public static void searchAvailableMatch(String[] solutionSet, String[] record, String target, int order) {
-        if (judge(solutionSet, record, target, order)) return;
+        if (order == solutionSet.length - 1 && target.isEmpty()) {
+            System.out.println("one valid result : ");
+            for (int i = 0; i < record.length; i++) {
+                System.out.printf("%-15s", record[i]);
+            }
+            System.out.println();
+        }
 
-        HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, order);
+        HashMap<String, List<String>> resultMap = GetRangeOfVariableAndSubString.getRangeOfXiAndSubString(solutionSet, target, order);
         List<String> availableRange = resultMap.get("availableRange");
         List<String> subStringForNextLayer = resultMap.get("subStringForNextLayer");
         for (int i = 0; i < availableRange.size(); i++) {
@@ -105,155 +101,5 @@ public class StringMatchProblem_BackTracingModel {
         return;
     }
 
-    private static boolean judge(String[] solutionSet, String[] record, String target, int order) {
-        if (order > solutionSet.length - 1) {
-            return true;
-        }
-        if (order != solutionSet.length - 1 && target == "EMPTY") {
-            return true;
-        }
-        if (order == solutionSet.length - 1) {
-            String Xi = solutionSet[order];
-            char[] xi = Xi.toCharArray();
-            if (xi[0] == '.' && Xi.length() == 1) {
-                if (target.length() == 1 || target == "EMPTY") {
-                    displayResult(record, target, order);
-                    return true;
-                }
-            }
-            if (xi[0] == '.' && Xi.length() == 2) {
-                displayResult(record, target, order);
-                return true;
-            }
-            if (Xi.length() == 1) {
-                char[] elementArray = Xi.substring(0, 1).toCharArray();
-                char singleChar = elementArray[0];
-                char[] targetArray = target.toCharArray();
-                if (targetArray.length == 1 && targetArray[0] == singleChar) {
-                    displayResult(record, target, order);
-                } else {
-                    return true;
-                }
-            }
-            if (Xi.length() == 2) {
-                if (target == "EMPTY") {
-                    displayResult(record, target, order);
-                    return true;
-                }
-                char[] elementArray = Xi.substring(0, 1).toCharArray();
-                char singleChar = elementArray[0];
-                char[] targetArray = target.toCharArray();
-                for (int j = 0; j < targetArray.length; j++) {
-                    if (targetArray[j] != singleChar) {
-                        return true;
-                    }
-                }
-                displayResult(record, target, order);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static void displayResult(String[] record, String target, int order) {
-        record[order] = target;
-        System.out.printf("one valid result : ");
-        for (int i = 0; i < record.length; i++) {
-            System.out.printf("%-15s", record[i]);
-        }
-        System.out.println();
-    }
-
-    public static HashMap<String, List<String>> getRangeOfXiAndSubString(String[] solutionSet, String target, int order) {
-        List<String> availableRange = new ArrayList<>();
-        List<String> subStringForNextLayer = new ArrayList<>();
-        String Xi = solutionSet[order];
-        char[] xi = Xi.toCharArray();
-
-        if (Xi.length() == 1) {
-            if (xi[0] == '.') {
-                availableRange.add(target.substring(0, 1));
-                availableRange.add("EMPTY");
-                subStringForNextLayer.add(target.substring(1));
-                subStringForNextLayer.add(target);
-            } else {
-                char[] elementArray = Xi.substring(0, 1).toCharArray();
-                char singleChar = elementArray[0];
-                char[] targetArray = target.toCharArray();
-                if (targetArray.length > 0 && targetArray[0] == singleChar) {
-                    availableRange.add(Xi.substring(0, 1));
-                    subStringForNextLayer.add(target.substring(1));
-                }
-            }
-        }
-
-        if (Xi.length() == 2) {
-            if (xi[0] == '.') {
-                availableRange.add("EMPTY");
-                for (int i = 0; i < target.length(); i++) {
-                    availableRange.add(target.substring(0, i + 1));
-                    subStringForNextLayer.add(target.substring(i));
-                }
-                subStringForNextLayer.add("EMPTY");
-            } else {
-                char[] elementArray = Xi.substring(0, 1).toCharArray();
-                char singleChar = elementArray[0];
-                char[] targetArray = target.toCharArray();
-                int num = 0;
-                while (num < targetArray.length && targetArray[num] == singleChar) {
-                    num++;
-                }
-                String subString = target.substring(0, num);
-                availableRange.add("EMPTY");
-                for (int k = 1; k <= num; k++) {
-                    availableRange.add(subString.substring(0, k));
-                    subStringForNextLayer.add(target.substring(k - 1));
-                }
-                subStringForNextLayer.add("EMPTY");
-            }
-        }
-
-        HashMap<String, List<String>> resultMap = new HashMap<>();
-        resultMap.put("availableRange", availableRange);
-        resultMap.put("subStringForNextLayer", subStringForNextLayer);
-        return resultMap;
-    }
-
-    public static HashMap<String, String[]> getSolutionSetAndRecordArray(String pattern) {
-        char[] patternArray = pattern.toCharArray();
-        int lengthOfSet = 0;
-        int i = 0;
-        while (i < pattern.length()) {
-            if (i + 1 < pattern.length() && patternArray[i + 1] == '*') {
-                lengthOfSet++;
-                i = i + 2;
-            } else {
-                lengthOfSet++;
-                i = i + 1;
-            }
-        }
-        String[] record = new String[lengthOfSet];
-        String[] solutionSet = new String[lengthOfSet];
-        int j = 0;
-        int length = 0;
-        while (j < pattern.length()) {
-            if (j + 1 < pattern.length() && patternArray[j + 1] == '*') {
-                solutionSet[length] = pattern.substring(j, j + 2);
-                length++;
-                j = j + 2;
-            } else {
-                solutionSet[length] = pattern.substring(j, j + 1);
-                length++;
-                j = j + 1;
-            }
-        }
-        for (int k = 0; k < lengthOfSet; k++) {
-            record[k] = "NULL";
-        }
-        HashMap<String, String[]> resultMap = new HashMap<>();
-        resultMap.put("solutionSet", solutionSet);
-        resultMap.put("record", record);
-        return resultMap;
-    }
 
 }
