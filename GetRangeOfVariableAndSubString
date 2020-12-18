@@ -7,8 +7,8 @@ import java.util.List;
 public class GetRangeOfVariableAndSubString {
     public static void main(String[] args) {
         String[] solutionSet = {".*", "c*", ".", "a", ""};
-        String target = "bcd";
-        HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, 3);
+        String target = "cbc";
+        HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, 2);
         List<String> availableRange = resultMap.get("availableRange");
         List<String> subStringForNextLayer = resultMap.get("subStringForNextLayer");
         System.out.println("availableRange size is : " + availableRange.size());
@@ -47,9 +47,13 @@ public class GetRangeOfVariableAndSubString {
             subStringForNextLayer.add("");
             return;
         }
-
-
-        if (variable.length() == 1 && (variable.charAt(0) == '.' || variable.charAt(0) == target.charAt(0))) {
+        if (variable.length() == 1 && variable.charAt(0) == '.') {
+            availableRange.add("");
+            subStringForNextLayer.add(target);
+            availableRange.add(target.substring(0, 1));
+            subStringForNextLayer.add(target.substring(1));
+        }
+        if (variable.length() == 1 && variable.charAt(0) == target.charAt(0)) {
             availableRange.add(target.substring(0, 1));
             subStringForNextLayer.add(target.substring(1));
         }
