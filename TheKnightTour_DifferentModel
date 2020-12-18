@@ -1,0 +1,38 @@
+package Algorithms.BackTracing;
+
+/**
+ * 1 in the previous implementation .we let the xi the solution set and let the i index means the ith rectangle
+ * the smallest unit ! yes it is .and it work! it just work!
+ * and yes at the initial . the value of the xi can be every one in the 0 to 63 . but here the constraint
+ * x0 = 0
+ * and with the constraint we put the knight movement to calculate . so for the next move .
+ * just for example x10   and   x17  can be the next move .
+ * so we choose x10 suddenly ! the range of the x10 which can be 1 to 63 and with the constraint it range become 1 now !
+ * yes satisfy the model principle . from the routine of one selection in the selection tree . the xi which i is not
+ * repeat ! no repeat !
+ * and every time we give xi value . have two impacts on the future :
+ * 1 the solution set xi be compressed ! --- no repeat principle
+ * 2 under the framework of the constraint --- the range of the other xi  be compressed too
+ * in some specific case it comes to only one
+ * and when we use this view to see the search false cases!
+ * with the constraint we say .we can do any assignment for the new xi because no satisfied xi can be assigned to
+ * the next move number . we can also say . for the N  move .all the no selected xi which range be compressed to the
+ * N at this stage ! so we can say this compress move have the long future and short future influence ! both !
+ * and yes we say . when we find no xi for the next assignment . that is false .or for the next xi there is no
+ * range for the assignment false too !
+ * 2 so we can say the backTracing model in a big picture that is right .
+ * find the solution set ! no repeat assignment for different xi for i index .
+ * and if false ! both no xi for the next assignment or for one xi there is no range for assignment
+ * we return --------- cut loss in time !
+ * that is .
+ * and for the code implementation we use the tree DFS model and to abstract the function as the tree node
+ * when we find the right path return true or print the result !
+ * for --- from the list of the next selection !
+ * do the modification
+ * repeal the modification !
+ * so actually we use the N increment by 1 this is the xi . we find the xi i represent the Nth movement
+ * and yes . the range of the xi is the ? number of the rectangle ! that is reasonable! so the implementation is
+ * just no change ! but this time we have more insight of it ! 
+ */
+public class TheKnightTour_DifferentModel {
+}
