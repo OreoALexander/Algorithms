@@ -1,10 +1,10 @@
 package Algorithms.BackTracing;
 
-import Algorithms.JavaFundamentalApi.StringAPI.GetRangeOfVariableAndSubString;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import static Algorithms.JavaFundamentalApi.StringAPI.GetRangeOfVariableAndSubString.getRangeOfXiAndSubString;
+import static Algorithms.JavaFundamentalApi.StringAPI.GetTheSolutionSetAndRecordArray.getTheSolutionSetAndRecordArray;
 
 /**
  * 1 last time we do this the implementation is so complex to control it
@@ -71,10 +71,11 @@ import java.util.List;
  */
 public class StringMatchProblem_BackTracingModel {
     public static void main(String[] args) {
-        String pattern = ".*.*c*a..";
+        String pattern = "c*.*a.b";
         String target = "abcdccab";
-        String[] record = {"NULL", "NULL", "NULL", "NULL", "NULL", "NULL"};
-        String[] solutionSet = {".*", ".*", "c*", "a", ".", ".", ""};
+        HashMap<String, String[]> resultMap = getTheSolutionSetAndRecordArray(pattern);
+        String[] solutionSet = resultMap.get("solutionSet");
+        String[] record = resultMap.get("record");
         searchAvailableMatch(solutionSet, record, target, 0);
 
     }
@@ -88,7 +89,7 @@ public class StringMatchProblem_BackTracingModel {
             System.out.println();
         }
 
-        HashMap<String, List<String>> resultMap = GetRangeOfVariableAndSubString.getRangeOfXiAndSubString(solutionSet, target, order);
+        HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, order);
         List<String> availableRange = resultMap.get("availableRange");
         List<String> subStringForNextLayer = resultMap.get("subStringForNextLayer");
         for (int i = 0; i < availableRange.size(); i++) {
