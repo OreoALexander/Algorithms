@@ -72,7 +72,7 @@ import static Algorithms.JavaFundamentalApi.StringAPI.GetTheSolutionSetAndRecord
 public class StringMatchProblem_BackTracingModel {
     public static void main(String[] args) {
         String pattern = "c*.*a.b";
-        String target = "abcdccab";
+        String target = "ccccccabcacb";
         HashMap<String, String[]> resultMap = getTheSolutionSetAndRecordArray(pattern);
         String[] solutionSet = resultMap.get("solutionSet");
         String[] record = resultMap.get("record");
@@ -81,12 +81,18 @@ public class StringMatchProblem_BackTracingModel {
     }
 
     public static void searchAvailableMatch(String[] solutionSet, String[] record, String target, int order) {
-        if (order == solutionSet.length - 1 && target.isEmpty()) {
+        if (order == solutionSet.length-1 && target.isEmpty()) {
+            for (int k = 0; k < record.length; k++) {
+                if (record[k].isEmpty()) {
+                    record[k] = "EMPTY";
+                }
+            }
             System.out.println("one valid result : ");
             for (int i = 0; i < record.length; i++) {
-                System.out.printf("%-15s", record[i]);
+                System.out.printf("%-35s", record[i]);
             }
             System.out.println();
+            return;
         }
 
         HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, order);
