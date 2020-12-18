@@ -1,0 +1,85 @@
+package Algorithms.JavaFundamentalApi.StringAPI;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class GetRangeOfVariableAndSubString {
+    public static void main(String[] args) {
+        String[] solutionSet = {".*", "c*", ".", "a", ""};
+        String target = "bcd";
+        HashMap<String, List<String>> resultMap = getRangeOfXiAndSubString(solutionSet, target, 3);
+        List<String> availableRange = resultMap.get("availableRange");
+        List<String> subStringForNextLayer = resultMap.get("subStringForNextLayer");
+        System.out.println("availableRange size is : " + availableRange.size());
+        for (int k = 0; k < availableRange.size(); k++) {
+            System.out.printf("%-15s", availableRange.get(k));
+        }
+        System.out.println();
+        System.out.println("subStringForNextLayer size is : " + subStringForNextLayer.size());
+        for (int k = 0; k < subStringForNextLayer.size(); k++) {
+            System.out.printf("%-15s", subStringForNextLayer.get(k));
+        }
+    }
+
+    public static HashMap<String, List<String>> getRangeOfXiAndSubString(String[] solutionSet, String target, int order) {
+        HashMap<String, List<String>> resultMap = new HashMap<>();
+        List<String> availableRange = new ArrayList<>();
+        List<String> subStringForNextLayer = new ArrayList<>();
+        String variable = solutionSet[order];
+        Find(target, availableRange, subStringForNextLayer, variable);
+        resultMap.put("availableRange", availableRange);
+        resultMap.put("subStringForNextLayer", subStringForNextLayer);
+        return resultMap;
+    }
+
+    private static void Find(String target, List<String> availableRange, List<String> subStringForNextLayer, String variable) {
+        WhileVariableLengthIsTwo(target, availableRange, subStringForNextLayer, variable);
+        WhileVariableLengthIsOne(target, availableRange, subStringForNextLayer, variable);
+    }
+
+    private static void WhileVariableLengthIsOne(String target, List<String> availableRange, List<String> subStringForNextLayer, String variable) {
+        if (target.isEmpty() && variable.length() == 1 && variable.charAt(0) != '.') {
+            return;
+        }
+        if (target.isEmpty() && variable.length() == 1 && variable.charAt(0) == '.') {
+            availableRange.add("");
+            subStringForNextLayer.add("");
+            return;
+        }
+
+
+        if (variable.length() == 1 && (variable.charAt(0) == '.' || variable.charAt(0) == target.charAt(0))) {
+            availableRange.add(target.substring(0, 1));
+            subStringForNextLayer.add(target.substring(1));
+        }
+    }
+
+    /**
+     * check is ok !
+     */
+    private static void WhileVariableLengthIsTwo(String target, List<String> availableRange, List<String> subStringForNextLayer, String variable) {
+        if (target.isEmpty() && variable.length() == 2) {
+            availableRange.add("");
+            subStringForNextLayer.add("");
+            return;
+        }
+
+        if (variable.length() == 2 && variable.charAt(0) == '.') {
+            for (int i = 0; i <= target.length(); i++) {
+                availableRange.add(target.substring(0, i));
+                subStringForNextLayer.add(target.substring(i));
+            }
+        }
+        if (variable.length() == 2 && variable.charAt(0) != '.') {
+            int pointer = 0;
+            while (pointer < target.length() && target.charAt(pointer) == variable.charAt(0)) {
+                availableRange.add(target.substring(0, pointer));
+                subStringForNextLayer.add(target.substring(pointer));
+                pointer++;
+            }
+            availableRange.add(target.substring(0, pointer));
+            subStringForNextLayer.add(target.substring(pointer));
+        }
+    }
+}
