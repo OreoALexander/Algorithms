@@ -1,0 +1,52 @@
+package Algorithms.DynamicProgramming;
+
+/**
+ * 1 so what we will do is ----
+ * use the storage to store the intermediate result .
+ * 2 so let us see the state transfer function
+ * f(S) = is palindromic S ? S : f(S-left1) or f(S-right1)
+ * so first step figure out what we use for the DP array
+ * the dimension of the DP array ! yes the DP array should you know store the same thing of the
+ * recursion function . so it store the longest Palindromic Substring  yes . and what is the
+ * dimension ! you want to use a you know bottom to the top ? so first of all find the base condition
+ * so the base condition is single char or double same char .
+ */
+public class L0005DPArrayImplement_Official {
+    public static void main(String[] args) {
+        String target = "abacbabc";
+        String result = longestPalindrome(target);
+        System.out.println(result);
+
+    }
+
+    public static String longestPalindrome(String target) {
+        int n = target.length();
+        boolean[][] dp = new boolean[n][n];
+        String answer = "";
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i + k < n; i++) {
+                int j = i + k;
+                if (k == 0) {
+                    dp[i][j] = true;
+                } else if (k == 1) {
+                    dp[i][j] = (target.charAt(i) == target.charAt(j));
+                } else {
+                    dp[i][j] = (target.charAt(i) == target.charAt(j) && dp[i + 1][j - 1]);
+                }
+                if (dp[i][j] && k + 1 > answer.length()) {
+                    answer = target.substring(i, i + k + 1);
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.printf("%-15b", dp[i][j]);
+            }
+            System.out.println();
+        }
+
+        return answer;
+    }
+
+}
