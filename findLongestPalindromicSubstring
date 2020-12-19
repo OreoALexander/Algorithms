@@ -1,0 +1,67 @@
+package Algorithms.LeetCode;
+
+/**
+ * 1 so in this problem we want to find the longest palindromic substring
+ * Input: s = "babad"
+ * Output: "bab"
+ * Note: "aba" is also a valid answer.
+ * so if we use the dynamic programming
+ * what we should do ?
+ * 1 judge the problem to find if it is a dynamic programming problem ?
+ * so we invoke the previous knowledge of what dynamic programming do ?
+ * 1 count problem with specific constraint
+ * 2 more specific we want to find the min or max value
+ * so this problem want the palindromic substring ok now satisfy the
+ * first one item . and we want to find the min or the max value
+ * and check the overlap construction .  so ?
+ * yes the original string itself may be the longest one check it !
+ * if not ! so indicates the longest one in the substring .
+ * so if you say the overlap ! that is ok because yes maybe the longest one in the
+ * substring
+ * 2 so the selection variable is just to do the selection between . current one is the longest one ?
+ * or the longest one in the substring . and in the later option we decrease the parameter to
+ * describe the state !
+ * 3 in this problem we also need to use the recursion to check if one is the palindromic !
+ * 4 f(S) = is palindromic S ? S : f(S-left1) or f(S-right1)
+ */
+public class L0005LongestPalindromicSubstring {
+    public static void main(String[] args) {
+        String target = "";
+        String result = findLongestPalindromicSubstring(target);
+        System.out.println(result);
+
+    }
+
+    public static String findLongestPalindromicSubstring(String target) {
+        if(target.isEmpty()){
+            return "wrong input !";
+        }
+        if (judgeCurrentStringIsPalindromic(target)) {
+            return target;
+        }
+        String subStringN1 = findLongestPalindromicSubstring(target.substring(0, target.length() - 1));
+        String subStringN2 = findLongestPalindromicSubstring(target.substring(1));
+        if (subStringN1.length() >= subStringN2.length()) {
+            return subStringN1;
+        } else {
+            return subStringN2;
+        }
+    }
+
+    public static boolean judgeCurrentStringIsPalindromic(String current) {
+        if (current.isEmpty()) {
+            return false;
+        }
+        if (current.length() == 1) {
+            return true;
+        }
+        if (current.length() == 2 && current.charAt(0) == current.charAt(1)) {
+            return true;
+        }
+        if (current.charAt(0) == current.charAt(current.length() - 1)) {
+            return judgeCurrentStringIsPalindromic(current.substring(1, current.length() - 1));
+        }
+        return false;
+    }
+
+}
