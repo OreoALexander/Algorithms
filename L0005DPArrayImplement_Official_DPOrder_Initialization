@@ -1,0 +1,87 @@
+package Algorithms.DynamicProgramming;
+
+/**
+ * 1 so what we will do is ----
+ * use the storage to store the intermediate result .
+ * 2 so let us see the state transfer function
+ * f(S) = is palindromic S ? S : f(S-left1) or f(S-right1)
+ * so first step figure out what we use for the DP array
+ * the dimension of the DP array ! yes the DP array should you know store the same thing of the
+ * recursion function . so it store the longest Palindromic Substring  yes . and what is the
+ * dimension ! you want to use a you know bottom to the top ? so first of all find the base condition
+ * so the base condition is single char or double same char .
+ *
+ * 2 so in the official implementation
+ *   i indicates the head
+ *   k indicates the move distance from the head . so i+k = tail < length of the target
+ *   and the i from 0 to length-1 ;
+ *   and the k from 0 to length-1 ; with the i+k = tail < length
+ *   we avoid some head > tail condition and
+ *   we just consider head = tail which indicates one single element
+ *   and head < tail
+ *   yes
+ *   but the most important thing in the all implementation
+ *   is ----------make sure the smaller problem be solved first !
+ *   so after the initialization ! tail = head DP = true and
+ *   if tail - head = 1 and charAt tail and head equal ! true !
+ *   so in this way we keep the smaller problem be solved first !
+ *   and we can combine the initialization at the same traverse !
+ *   great movement ! so that is a new way to traverse the two dimension array
+ *   if we want to describe the substring of one dimensional string ! the
+ *   head and its incrementation ! and if we let the i the outer loop so much if to judge
+ *   i+k < N
+ *   but with k is the outer loop we just let i+k<n as the inner loop end condition
+ *   elegant ! very touching !
+ *   f(S) = is palindromic S ? S : f(S-left1) or f(S-right1)
+ *   so for this state transfer  function we find the base condition is like s(1,1)
+ *   s(2,2) s(3,3) s(3,4) multiple base condition .so for such dp array transform
+ *   we need to use the increment technique to do this to make sure the smaller
+ *   problem be solved first ! and ! yes it is ! the smallest the base condition problem be solved
+ *   at first ! but the larger but still the base condition in the second ! we use the loop with
+ *   constraint to finish this !and all this in a uniform way ! so
+ *   we use the k the increment 0 1 2 3 4 5 6 7
+ *   in the no exceed the index of the array !
+ *   increment k condition the substring ! with the head + increment to get tail ! can satisfy the
+ *   DP order !
+ *   DP need initialize that is just the specific condition in the DP Order !
+ *   think the graphic in the mind !
+ */
+public class L0005DPArrayImplement_Official {
+    public static void main(String[] args) {
+        String target = "abacbabc";
+        String result = longestPalindrome(target);
+        System.out.println(result);
+
+    }
+
+    public static String longestPalindrome(String target) {
+        int n = target.length();
+        boolean[][] dp = new boolean[n][n];
+        String answer = "";
+        for (int k = 0; k < n; k++) {
+            for (int i = 0; i + k < n; i++) {
+                int j = i + k;
+                if (k == 0) {
+                    dp[i][j] = true;
+                } else if (k == 1) {
+                    dp[i][j] = (target.charAt(i) == target.charAt(j));
+                } else {
+                    dp[i][j] = (target.charAt(i) == target.charAt(j) && dp[i + 1][j - 1]);
+                }
+                if (dp[i][j] && k + 1 > answer.length()) {
+                    answer = target.substring(i, i + k + 1);
+                }
+            }
+        }
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.printf("%-15b", dp[i][j]);
+            }
+            System.out.println();
+        }
+
+        return answer;
+    }
+
+}
