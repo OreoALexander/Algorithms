@@ -1,0 +1,35 @@
+package Algorithms.DynamicProgramming;
+
+public class L0005SelfPractice {
+    public static void main(String[] args) {
+        String target = "abaccbccabcdcba";
+        System.out.println(getLongest(target));
+    }
+
+    public static String getLongest(String target) {
+        int length = target.length();
+        boolean[][] matrix = new boolean[length][length];
+        int tail;
+        int max = 0;
+        String result = "";
+        for (int increment = 0; increment < length; increment++) {
+            for (int head = 0; head + increment < length; head++) {
+                tail = head + increment;
+                if (increment == 0) {
+                    matrix[head][tail] = true;
+                }
+                boolean boundaryCheck = target.charAt(head) == target.charAt(tail);
+                if (increment == 1) {
+                    matrix[head][tail] = boundaryCheck;
+                }
+                if (increment > 1) {
+                    matrix[head][tail] = boundaryCheck && matrix[head + 1][tail - 1];
+                }
+                if (matrix[head][tail] && tail - head + 1 > max) {
+                    result = target.substring(head,tail+1);
+                }
+            }
+        }
+        return result;
+    }
+}
