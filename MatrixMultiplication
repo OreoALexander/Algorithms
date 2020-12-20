@@ -1,0 +1,54 @@
+package Algorithms.Matrix;
+
+/**
+ * in this class we will do the matrix multiplication
+ * 1 so the rule of the matrix multiplication is
+ * yes P  m * n  Q n * k so the new matrix is the m * k matrix
+ * so we can get the new matrix with the you know the index .
+ * 2 what is the element ?
+ * M m * k   = m row of the P and k column of the  Q
+ * that is great !
+ * but we should think
+ * so for the sum process the loop length is the n so the m and k is the location index we
+ * use them to find the which row which column !
+ */
+public class MatrixMultiplication {
+    public static void main(String[] args) {
+        int[][] matrixP = {{1, 2}, {2, 3}, {1, 4}}; /** a 3*2 matrix */
+        int[][] matrixQ = {{4, 5, 6}, {6, 7, 8}}; /** a 2*3 matrix */
+        int columnOfP = matrixP[0].length;
+        int rowOfQ = matrixQ.length;
+        displayMatrix(matrixP);
+        displayMatrix(matrixQ);
+        if (columnOfP == rowOfQ) {
+            int[][] resultMatrix = getMultiplicationOfMatrix(matrixP, matrixQ);
+            displayMatrix(resultMatrix);
+        }
+    }
+
+    public static int[][] getMultiplicationOfMatrix(int[][] matrixP, int[][] matrixQ) {
+        int rowLengthOfP = matrixP.length;
+        int columnLengthOfQ = matrixQ[0].length;
+        int loopLength = matrixQ.length;
+        int[][] newMatrix = new int[rowLengthOfP][columnLengthOfQ];
+        for (int row = 0; row < rowLengthOfP; row++) {
+            for (int column = 0; column < columnLengthOfQ; column++) {
+                newMatrix[row][column] = 0;
+                for (int i = 0; i < loopLength; i++) {
+                    newMatrix[row][column] = newMatrix[row][column] + matrixP[row][i] * matrixQ[i][column];
+                }
+            }
+        }
+        return newMatrix;
+    }
+
+    public static void displayMatrix(int[][] matrix) {
+        System.out.println("Display!");
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                System.out.printf("%-7d", matrix[i][j]);
+            }
+            System.out.println();
+        }
+    }
+}
