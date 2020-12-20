@@ -1,0 +1,80 @@
+package Algorithms.DivideAndConquer;
+
+public class FindTheMaxSubArray {
+    public static void main(String[] args) {
+        int[] array = {-1, 2, 4, -2, 45, -27, -28, 19, 1, 4, 5, -4, 6, -3, 8};
+        int low = 0;
+        int high = array.length - 1;
+        int[] result = getTheMaxSubArray(array, low, high);
+        System.out.println(result[0]);
+        System.out.println(result[1]);
+    }
+
+    public static int[] getTheMaxSubArray(int[] array, int low, int high) {
+        if (low == high) {
+            int[] recordIndex = new int[2];
+            recordIndex[0] = recordIndex[1] = low;
+            return recordIndex;
+        }
+        int mid = (low+high)/2;
+        int[] recordIndexLeft;
+        int[] recordIndexRight;
+        int[] recordIndexCross;
+        int leftMax = 0;
+        int rightMax = 0;
+        int crossMax = 0;
+        recordIndexLeft = getTheMaxSubArray(array, low, mid);
+        recordIndexRight = getTheMaxSubArray(array, mid + 1, high);
+        recordIndexCross = getTheCrossMax(array, low, high, mid);
+        for (int i = recordIndexLeft[0]; i <= recordIndexLeft[1]; i++) {
+            leftMax = leftMax + array[i];
+        }
+        for (int i = recordIndexRight[0]; i <= recordIndexRight[1]; i++) {
+            rightMax = rightMax + array[i];
+        }
+        for (int i = recordIndexCross[0]; i <= recordIndexCross[1]; i++) {
+            crossMax = crossMax + array[i];
+        }
+        return findResultIndex(leftMax, rightMax, crossMax, recordIndexLeft, recordIndexRight, recordIndexCross);
+    }
+
+    public static int[] findResultIndex(int leftMax, int rightMax, int crossMax, int[] recordIndexLeft, int[] recordIndexRight, int[] recordIndexCross) {
+        int[] recordIndex = new int[2];
+        if (leftMax >= rightMax && leftMax >= crossMax) {
+            return recordIndexLeft;
+        }
+        if (rightMax >= leftMax && rightMax >= crossMax) {
+            return recordIndexRight;
+        }
+        if (crossMax >= rightMax && crossMax >= leftMax) {
+            return recordIndexCross;
+        }
+        return recordIndex;
+    }
+
+    public static int[] getTheCrossMax(int[] array, int low, int high, int mid) {
+        int sumLeft = -10000;
+        int sumRight = -10000;
+        int leftIndex = 0;
+        int rightIndex = 0;
+        int sum = 0;
+        int[] recordIndex = new int[2];
+        for (int i = mid; i >= low; i--) {
+            sum = sum + array[i];
+            if (sum > sumLeft) {
+                sumLeft = sum;
+                leftIndex = i;
+            }
+        }
+        for (int j = mid + 1; j <= high; j++) {
+            sum = sum + array[j];
+            if (sum > sumRight) {
+                sumRight = sum;
+                rightIndex = j;
+            }
+        }
+        recordIndex[0] = leftIndex;
+        recordIndex[1] = rightIndex;
+        return recordIndex;
+    }
+}
