@@ -1,0 +1,60 @@
+package AlgorithmsAndLeetCodes;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class L0098ValidateBinarySearchTree {
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public static void main(String[] args) {
+        TreeNode treeNodeN1 = new TreeNode(2);
+        TreeNode treeNodeN2 = new TreeNode(1);
+        TreeNode treeNodeN3 = new TreeNode(4);
+        TreeNode treeNodeN4 = new TreeNode(10);
+
+        treeNodeN1.left = treeNodeN2;
+        treeNodeN1.right = treeNodeN3;
+        treeNodeN3.left = treeNodeN4;
+        boolean result = checkTree(treeNodeN1);
+        System.out.println(result);
+    }
+
+    public static boolean checkTree(TreeNode treeNode) {
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        TreeNode currentTreeNode;
+        queue.add(treeNode);
+        while (!queue.isEmpty()) {
+            currentTreeNode = queue.poll();
+            if (currentTreeNode.left != null) {
+                if (!(currentTreeNode.left.val < currentTreeNode.val)) {
+                    return false;
+                }
+                queue.add(currentTreeNode.left);
+            }
+            if (currentTreeNode.right != null) {
+                if (!(currentTreeNode.right.val > currentTreeNode.val)) {
+                    return false;
+                }
+                queue.add(currentTreeNode.right);
+            }
+        }
+        return true;
+    }
+}
