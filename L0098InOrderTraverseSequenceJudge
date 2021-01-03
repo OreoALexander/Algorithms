@@ -1,0 +1,63 @@
+package AlgorithmsAndLeetCodes;
+
+import java.lang.reflect.AnnotatedType;
+import java.util.ArrayList;
+import java.util.List;
+
+public class L0098InOrderTraverseSequenceJudge {
+    public static class TreeNode {
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode() {
+        }
+
+        TreeNode(int val) {
+            this.val = val;
+        }
+
+        TreeNode(int val, TreeNode left, TreeNode right) {
+            this.val = val;
+            this.left = left;
+            this.right = right;
+        }
+    }
+
+    public static void main(String[] args) {
+
+        TreeNode treeNodeN1 = new TreeNode(2);
+        TreeNode treeNodeN2 = new TreeNode(1);
+        TreeNode treeNodeN3 = new TreeNode(4);
+        TreeNode treeNodeN4 = new TreeNode(3);
+        treeNodeN1.left = treeNodeN2;
+        treeNodeN1.right = treeNodeN3;
+        treeNodeN3.left = treeNodeN4;
+        boolean result = checkTree(treeNodeN1);
+        System.out.println(result);
+    }
+
+    public static boolean checkTree(TreeNode treeNode) {
+        List<Integer> sequence = new ArrayList<>();
+        InOrder(treeNode, sequence);
+        for (int i = 0; i < sequence.size() - 1; i++) {
+            if (sequence.get(i + 1) <= sequence.get(i)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void InOrder(TreeNode treeNode, List<Integer> sequence) {
+        if (treeNode == null) {
+            return;
+        }
+        if (treeNode.left != null) {
+            InOrder(treeNode.left, sequence);
+        }
+        sequence.add(treeNode.val);
+        if (treeNode.right != null) {
+            InOrder(treeNode.right, sequence);
+        }
+    }
+}
