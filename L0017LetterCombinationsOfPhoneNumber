@@ -1,5 +1,4 @@
-
-package AlgorithmsAndLeetCodes;
+package Algorithms.LeetCode;
 
 import java.util.ArrayList;
 import java.util.HashMap;
