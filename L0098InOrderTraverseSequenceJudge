@@ -1,6 +1,5 @@
-package AlgorithmsAndLeetCodes;
+package Algorithms.LeetCode;
 
-import java.lang.reflect.AnnotatedType;
 import java.util.ArrayList;
 import java.util.List;
 
