@@ -1,0 +1,72 @@
+package Algorithms.DataStructure.Tree.BinaryTree;
+
+import Algorithms.LeetCode.TreeNode;
+
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
+
+
+/**
+ * why we want to create a method to use the array or the list to create a binary tree
+ * because we want to improve the efficiency of the tree creating
+ * the new tree node and assignment and the pointer assignment !
+ * all these work is boring !
+ * so we need use one easy way to do that .
+ * so the first choice is we can use the array to create tree. that is the
+ * sequence representation into the tree representation .the key is
+ * use the index to find its left child and right child respectively
+ * but the problem is how to represent null ?
+ * so the array will be not the you know just integer or int type ?
+ * 10  9  7    6 11   4 6
+ * 0   1  2    3  4   5 6
+ * index = 0
+ * left  = 1
+ * right = 2
+ * <p>
+ * parent = 1
+ * left = 3
+ * right =4
+ * <p>
+ * parent = 2
+ * left = 5
+ * right =6
+ * so the left child index = (parent+1)*2-1
+ * right child index = (parent+1)*2
+ */
+public class getBinaryTreeFromArray {
+    public static void main(String[] args) {
+        Object[] tree = {1, null, 3, null, null, 4, 5};
+        TreeNode root = getBinaryTree(tree);
+
+    }
+
+    public static TreeNode getBinaryTree(Object[] tree) {
+        TreeNode root = new TreeNode(-1);
+        if (tree[0] != null) {
+            root = new TreeNode(Integer.parseInt(tree[0].toString()));
+        }
+        int pointer = 0;
+        Queue<TreeNode> quene = new LinkedList<>();
+        quene.add(root);
+        while (pointer < tree.length) {
+            if (tree[pointer] != null) {
+                TreeNode currentParent = quene.poll();
+                if (2 * (pointer + 1) - 1 < tree.length && tree[2 * (pointer + 1) - 1] != null) {
+                    TreeNode newLeftChildNode = new TreeNode(Integer.parseInt(tree[2 * (pointer + 1) - 1].toString()));
+                    currentParent.left = newLeftChildNode;
+                    quene.add(newLeftChildNode);
+                }
+                if (2 * (pointer + 1) < tree.length && tree[2 * (pointer + 1)] != null) {
+                    TreeNode newRightChildNode = new TreeNode(Integer.parseInt(tree[2 * (pointer + 1)].toString()));
+                    currentParent.right = newRightChildNode;
+                    quene.add(newRightChildNode);
+                }
+            }
+            pointer++;
+        }
+        return root;
+    }
+
+}
+
