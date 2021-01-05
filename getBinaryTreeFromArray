@@ -4,8 +4,6 @@ import Algorithms.LeetCode.TreeNode;
 
 import java.util.LinkedList;
 import java.util.Queue;
-import java.util.Stack;
-
 
 /**
  * why we want to create a method to use the array or the list to create a binary tree
@@ -47,20 +45,20 @@ public class getBinaryTreeFromArray {
             root = new TreeNode(Integer.parseInt(tree[0].toString()));
         }
         int pointer = 0;
-        Queue<TreeNode> quene = new LinkedList<>();
-        quene.add(root);
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root);
         while (pointer < tree.length) {
             if (tree[pointer] != null) {
-                TreeNode currentParent = quene.poll();
+                TreeNode currentParent = queue.poll();
                 if (2 * (pointer + 1) - 1 < tree.length && tree[2 * (pointer + 1) - 1] != null) {
                     TreeNode newLeftChildNode = new TreeNode(Integer.parseInt(tree[2 * (pointer + 1) - 1].toString()));
                     currentParent.left = newLeftChildNode;
-                    quene.add(newLeftChildNode);
+                    queue.add(newLeftChildNode);
                 }
                 if (2 * (pointer + 1) < tree.length && tree[2 * (pointer + 1)] != null) {
                     TreeNode newRightChildNode = new TreeNode(Integer.parseInt(tree[2 * (pointer + 1)].toString()));
                     currentParent.right = newRightChildNode;
-                    quene.add(newRightChildNode);
+                    queue.add(newRightChildNode);
                 }
             }
             pointer++;
