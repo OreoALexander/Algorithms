@@ -1,0 +1,75 @@
+package Algorithms.LeetCode;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static Algorithms.DataStructure.Tree.BinaryTree.getBinaryTreeFromArray.getBinaryTree;
+import static Algorithms.LeetCode.L0098InOrderTraverseSequenceJudge.InOrderRecord;
+
+/**
+ * 1 2 3 4 5 6 7 is the normal sequence for the BST
+ * now we exchange two
+ * 1 2 6 4 5 3 7 so we see some thing happened
+ * now
+ * how to find these two problem point
+ * we use the positive trace and the back trace to find the first place where strange thing happen !
+ * 1 for positive search . find the first one which i + 1 < i
+ * 2 for the back search . find the first one which i - 1 > i
+ * for both search
+ * 1 note the boundary
+ * 2 use the while loop for uncertain loop !
+ * <p>
+ * 2 3 exchange to 3 2
+ * yes we find the algorithm works well even for some specific case condition !
+ * but for the normal case
+ * 1 2 3 so the pre will arrive the size - 1 ;
+ */
+public class L0099RecoverBinarySearchTree {
+    public static void main(String[] args) {
+        Object[] tree = {10, 8, 14, 16, 9, 12, 7};
+        TreeNode root = getBinaryTree(tree);
+        recover(root);
+    }
+
+    public static void recover(TreeNode treeNode) {
+        List<Integer> sequence = new ArrayList<>();
+        InOrderRecord(treeNode, sequence);
+        displaySequence(sequence);
+        int pre = 0;
+        int post = sequence.size() - 1;
+        while (pre + 1 < sequence.size() && sequence.get(pre) < sequence.get(pre + 1)) {
+            pre++;
+        }
+        if (pre == sequence.size() - 1) {
+            System.out.println("the tree is the normal BST no need to change !");
+            return;
+        }
+        while (post - 1 >= 0 && sequence.get(post - 1) < sequence.get(post)) {
+            post--;
+        }
+        int[] recordArray = new int[2];
+        recordArray[0] = sequence.get(pre);
+        recordArray[1] = sequence.get(post);
+        exchangeValueInOrder(treeNode, recordArray);
+        List<Integer> sequenceN2 = new ArrayList<>();
+        InOrderRecord(treeNode, sequenceN2);
+        displaySequence(sequenceN2);
+    }
+
+    public static void displaySequence(List<Integer> sequence) {
+        System.out.println("Display" + " " + "++++++++++++++++++");
+        for (int i = 0; i < sequence.size(); i++) {
+            System.out.println(sequence.get(i));
+        }
+    }
+
+    public static void exchangeValueInOrder(TreeNode treeNode, int[] recordArray) {
+        if (treeNode != null) {
+            exchangeValueInOrder(treeNode.left, recordArray);
+            if (treeNode.val == recordArray[0] || treeNode.val == recordArray[1]) {
+                treeNode.val = treeNode.val == recordArray[1] ? recordArray[0] : recordArray[1];
+            }
+            exchangeValueInOrder(treeNode.right, recordArray);
+        }
+    }
+}
