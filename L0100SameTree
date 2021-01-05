@@ -1,0 +1,27 @@
+package Algorithms.LeetCode;
+
+import static Algorithms.DataStructure.Tree.BinaryTree.getBinaryTreeFromArray.getBinaryTree;
+
+public class L0100SameTree {
+    public static void main(String[] args) {
+        Object[] treeN1 = {1, 5, 3, 6, null, 4, 5};
+        Object[] treeN2 = {1, 5, 3, 6, 7, 4, 5};
+        TreeNode treeNode = getBinaryTree(treeN1);
+        TreeNode compare = getBinaryTree(treeN2);
+        boolean result = judgeTree(treeNode, compare);
+        System.out.println(result);
+    }
+
+    public static boolean judgeTree(TreeNode treeNode, TreeNode compare) {
+        if (treeNode == null && compare == null) {
+            return true;
+        }
+        if (treeNode == null && compare != null) {
+            return false;
+        }
+        if (treeNode != null && compare == null) {
+            return false;
+        }
+        return judgeTree(treeNode.left, compare.left) && (treeNode.val == compare.val ? true : false) && judgeTree(treeNode.right, compare.right);
+    }
+}
