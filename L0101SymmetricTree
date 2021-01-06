@@ -1,0 +1,26 @@
+package Algorithms.LeetCode;
+
+import static Algorithms.DataStructure.Tree.BinaryTree.getBinaryTreeFromArray.getBinaryTree;
+
+public class L0101SymmetricTree {
+    public static void main(String[] args) {
+        Object[] treeN1 = {1, 3, 3};
+        TreeNode treeNode = getBinaryTree(treeN1);
+        boolean result = judgeSymmetry(treeNode);
+        System.out.println(result);
+    }
+
+    public static boolean judgeSymmetry(TreeNode treeNode) {
+        return check(treeNode, treeNode);
+    }
+
+    public static boolean check(TreeNode p, TreeNode q) {
+        if (p == null && q == null) {
+            return true;
+        }
+        if (p == null || q == null) {
+            return false;
+        }
+        return p.val == q.val && check(p.left, q.right) && check(p.right, q.left);
+    }
+}
