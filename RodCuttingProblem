@@ -1,0 +1,56 @@
+package Algorithms.DynamicProgramming;
+
+/**
+ * 1 variable analysis
+ * 1 the length of the rod
+ * 2 the cut way ! or we can say for one specific cut we get what length !
+ * 3 the sheet of the price and length define the max one cut length and you know the cut way choice
+ * combine with the reminding length of the rod
+ * so we can see these 3 variable affect each other !
+ * so we can choose one as the link !
+ * so what is the state ?
+ * we define the state with some variable so the length and the sheet define the state !
+ * just as the paper say ! with the initial input length and the price table .
+ * the result is sure !
+ * and we study the DP it is the improvement over the normal recursion and the brute enumeration !
+ * that is great !
+ * here are some problems when the length of the rod <= the sheet definition . we can use the lengthOfRod
+ * to do the loop of the recursion but .
+ * if the length of the rod > the sheet definition
+ * we have to let the length <= the 10 ! ok ! so we just need to do some small adjustment!
+ * so in this way we just get the result but we don't get the detail !
+ * so how to get the detail !
+ * how we exactly do the cut ! ?????
+ * we need to do the record ! ?
+ */
+public class RodCuttingProblem {
+    public static void main(String[] args) {
+        /**
+         * we put the price into the array and we use the index of the array to indicate the length
+         * so we put the index = 0 the price = 0
+         * that is great !
+         * */
+        int[] priceOfLength = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+        int result = getMaxCut(priceOfLength,4);
+        System.out.println(result);
+    }
+
+    public static int getMaxCut(int[] priceOfLength, int lengthOfRod) {
+        int maxPrice = 0;
+        int currentPrice = 0;
+        if (lengthOfRod == 1) {
+            return priceOfLength[1];
+        }
+        int maxCutChoice = priceOfLength.length - 1;
+        if (lengthOfRod < priceOfLength.length - 1) {
+            maxCutChoice = lengthOfRod;
+        }
+        for (int i = 1; i <= maxCutChoice; i++) {
+            currentPrice = priceOfLength[i] + getMaxCut(priceOfLength, lengthOfRod - i);
+            if (currentPrice >= maxPrice) {
+                maxPrice = currentPrice;
+            }
+        }
+        return maxPrice;
+    }
+}
