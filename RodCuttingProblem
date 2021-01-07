@@ -1,5 +1,8 @@
 package Algorithms.DynamicProgramming;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * 1 variable analysis
  * 1 the length of the rod
@@ -22,6 +25,16 @@ package Algorithms.DynamicProgramming;
  * so how to get the detail !
  * how we exactly do the cut ! ?????
  * we need to do the record ! ?
+ * <p>
+ * ok actually we are just doing the record work to record the routine of the tree !
+ * so how to do that .
+ * just with a list
+ * why the list because we don't know ! don't know what exactly the length of the you know the
+ * routine !
+ * do the record maybe not the good way . but we can choose trace it !
+ * just as you know the search process . to find the routine !
+ * I mean we can use the back trace to just find the
+ * you know the result case ! that is really amazing !
  */
 public class RodCuttingProblem {
     public static void main(String[] args) {
@@ -31,13 +44,17 @@ public class RodCuttingProblem {
          * that is great !
          * */
         int[] priceOfLength = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
-        int result = getMaxCut(priceOfLength,4);
+        int lengthOfRod = 7;
+        int result = getMaxCut(priceOfLength, lengthOfRod);
+        System.out.println("result is : ");
         System.out.println(result);
+        List<Integer> record = new ArrayList<>();
+        traceCutDetail(result, lengthOfRod, priceOfLength, record);
     }
 
     public static int getMaxCut(int[] priceOfLength, int lengthOfRod) {
         int maxPrice = 0;
-        int currentPrice = 0;
+        int currentPrice;
         if (lengthOfRod == 1) {
             return priceOfLength[1];
         }
@@ -52,5 +69,30 @@ public class RodCuttingProblem {
             }
         }
         return maxPrice;
+    }
+
+    public static void traceCutDetail(int maxPrice, int lengthOfRod, int[] priceOfLength, List<Integer> record) {
+        if (maxPrice == 0 && lengthOfRod == 0) {
+            System.out.println("+++++++++++++++++++++++++++");
+            for (int i = 0; i < record.size(); i++) {
+                System.out.println(record.get(i));
+            }
+            return;
+        }
+        if (maxPrice < 0) {
+            return;
+        }
+        if (lengthOfRod == 1) {
+            return;
+        }
+        int maxCutChoice = priceOfLength.length - 1;
+        if (lengthOfRod < priceOfLength.length - 1) {
+            maxCutChoice = lengthOfRod;
+        }
+        for (int i = 1; i <= maxCutChoice; i++) {
+            record.add(i);
+            traceCutDetail(maxPrice - priceOfLength[i], lengthOfRod - i, priceOfLength, record);
+            record.remove(record.size()-1);
+        }
     }
 }
