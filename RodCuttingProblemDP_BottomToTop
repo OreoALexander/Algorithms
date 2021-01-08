@@ -1,0 +1,43 @@
+package Algorithms.DynamicProgramming;
+
+/**
+ * yes now we will do the you know
+ * the dynamic programming using the memory to store the immediate result of the smaller problem
+ * and combine to get the result of the big problem .
+ * ok now the problem is
+ * we should set the base condition manually !
+ * and we also set the index 0 as 0 to let the index = the length of the rod
+ * and we set index 1 = 1
+ * the base condition
+ * and we use the Array !
+ * and how we transform the recursion into the iteration with the DP array to store the info ?
+ */
+public class RodCuttingProblemDP_BottomToTop {
+    public static void main(String[] args) {
+        int[] priceOfLength = {0, 1, 5, 8, 9, 10, 17, 17, 20, 24, 30};
+        int lengthOfRod = 32;
+        int result = getMaxValue(priceOfLength, lengthOfRod);
+        System.out.println(result);
+    }
+
+    public static int getMaxValue(int[] priceOfLength, int lengthOfRod) {
+        int[] maxPriceArray = new int[lengthOfRod + 1];
+        maxPriceArray[0] = 0;
+        maxPriceArray[1] = 1;
+        if (lengthOfRod == 1) {
+            return maxPriceArray[1];
+        }
+        for (int length = 2; length <= lengthOfRod; length++) {
+            maxPriceArray[length] = 0;
+            for (int i = 1; i <= length; i++) {
+                if (i > priceOfLength.length - 1) {
+                    break;
+                }
+                if (priceOfLength[i] + maxPriceArray[length - i] > maxPriceArray[length]) {
+                    maxPriceArray[length] = priceOfLength[i] + maxPriceArray[length - i];
+                }
+            }
+        }
+        return maxPriceArray[lengthOfRod];
+    }
+}
