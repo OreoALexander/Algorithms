@@ -1,0 +1,13 @@
+package Algorithms.JavaFundamentalApi.StringAPI;
+
+/**
+ * we use the StringValueOf
+ * to do the combine of the char and number and string to a bigger string !
+ */
+public class StringValueOf {
+    public static void main(String[] args) {
+        String combine = "";
+        combine += String.valueOf(1) + String.valueOf((char) (105));
+        System.out.println(combine);
+    }
+}
