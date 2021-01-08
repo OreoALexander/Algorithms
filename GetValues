@@ -1,0 +1,22 @@
+package Algorithms.JavaFundamentalApi.HashMap;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+/**
+ * so this method put the
+ * map.values
+ * put all the value to the list . and we can new a list use
+ * the map values data !
+ */
+public class GetValues {
+    public static void main(String[] args) {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("a", 1);
+        map.put("b", 2);
+        List<Integer> list = new ArrayList<>(map.values());
+        System.out.println(map.values());
+        System.out.println(list.toString());
+    }
+}
