@@ -1,0 +1,24 @@
+package Algorithms.JavaFundamentalApi.StringAPI.Char;
+
+/**
+ * until now we have saw a lot of applications about the
+ * char and number transform
+ * that is great !
+ * 1 we can let the char to transform to int double you know number
+ * 2 we can use the char to do the operation such as sum difference and so on !
+ * 3 we can use the char to do the compulsive transform to let a int to the char and output the char
+ */
+public class CharArrayIndexNumberTransform {
+    public static void main(String[] args) {
+        System.out.println('a');
+        int difference = 'A' - 'b';
+        double a = 'A';
+        int b = 'b';
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(difference);
+        System.out.println(String.valueOf((char) (100)));
+        System.out.println((char) (100));
+        System.out.println((int)('a'));
+    }
+}
