@@ -1,0 +1,37 @@
+package Algorithms.LeetCode;
+
+/**
+ * Divide and conquer !
+ * <p>
+ * quick power
+ * we see the thought that is very clever !
+ * which means  x^64
+ * the brute way we can use x multiply it self 64 times to get x
+ * but that is poor in the performance !
+ * so how we do that ?
+ * we should also can ---- x --- x^2 and x^4 and x^8 and x^16 x^32 and x^64
+ * see ?
+ * just with more less steps we get the result !
+ * see the operation 1 with the tree structure ! and
+ * it is with the power growth !
+ */
+public class L0050Pow {
+    public static void main(String[] args) {
+        int result = quickPower(2, 10);
+        System.out.println(result);
+    }
+
+    public static int quickPower(int base, int power) {
+        if (power == 0) {
+            return 1;
+        }
+        int result;
+        int y = quickPower(base, power / 2);
+        if (power % 2 == 0) {
+            result = y * y;
+        } else {
+            result = y * y * base;
+        }
+        return result;
+    }
+}
