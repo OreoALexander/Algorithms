@@ -1,0 +1,70 @@
+package Algorithms.LeetCode;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * Given a collection of numbers,  might contain duplicates,
+ * return all possible unique permutations in any order.
+ * Example 1:
+ * Input: nums = [1,1,2]
+ * Output:
+ * [[1,1,2],
+ * [1,2,1],
+ * [2,1,1]]
+ * <p>
+ * Example 2:
+ * Input: nums = [1,2,3]
+ * Output: [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]
+ * <p>
+ * so we see some implementation
+ * 1 use the set to do the brute repetition cancel but in these way
+ * that is very bad in the performance
+ * that is very bad !
+ * so how to do that ?
+ * we can just use the same way the same back trace algorithm to find the permutation
+ * and put it into the set . and eventually traverse the set or you know display it !
+ * that is some kind of you know way !
+ * but bad ! really bad !
+ * we can use the you know sort as the prelude for repetition cancel !
+ * that is
+ * 1 sort the number in the sequence and get a you know sorted sequence !
+ * 2 and how to do that ?
+ * the key is in the back trace process we should create a standard to
+ * let the repeat char to have no function . that is the key
+ * for example 1 1 2 we just want
+ * one 1 1 2
+ * and the other one ?
+ * no ! but we don't figure out that method ?
+ * why it achieve ?
+ */
+public class L0047PermutationsV2 {
+    public static void main(String[] args) {
+        int[] nums = {1, 2, 1};
+        List<List<Integer>> result = permuteUnique(nums);
+        System.out.println(result.toString());
+    }
+
+    public static List<List<Integer>> permuteUnique(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums == null || nums.length == 0) return result;
+        Arrays.sort(nums);
+        helper(result, new ArrayList<>(), nums, new boolean[nums.length]);
+        return result;
+    }
+
+    private static void helper(List<List<Integer>> result, List<Integer> list, int[] nums, boolean[] used) {
+        if (list.size() == nums.length) {
+            result.add(new ArrayList<>(list));
+        }
+        for (int i = 0; i < nums.length; i++) {
+            if (used[i] || (i > 0 && nums[i] == nums[i - 1] && !used[i - 1])) continue;
+            used[i] = true;
+            list.add(nums[i]);
+            helper(result, list, nums, used);
+            used[i] = false;
+            list.remove(list.size() - 1);
+        }
+    }
+}
