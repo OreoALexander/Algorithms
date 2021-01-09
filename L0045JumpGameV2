@@ -51,7 +51,7 @@ public class L0045JumpGameV2 {
     }
 
     private static void helper(List<List<Integer>> traceDetail, List<Integer> list, int minStep, int currentStep, int[] input, int currentIndex) {
-        if (currentStep == minStep && currentIndex >= input.length - 1) {
+        if (currentStep == minStep && currentIndex == input.length - 1) {
             traceDetail.add(new ArrayList<>(list));
             return;
         }
