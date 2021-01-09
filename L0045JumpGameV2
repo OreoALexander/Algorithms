@@ -1,0 +1,42 @@
+package Algorithms.LeetCode;
+
+/**
+ * this problem is you know
+ * an absolute multiple stage decision problem
+ * and we can use the back trace to do this problem
+ * for what ?
+ * for example !
+ * if you stand at one point and its value indicates the you know the choice the max jump distance
+ * we can use the tree DFS to find the you know one routine which have the smallest depth !
+ * that is ! very impressive !
+ * but ! that is not good enough !
+ * with the state the dynamic programming we can construct a different recursion function and
+ * store it !
+ */
+public class L0045JumpGameV2 {
+    private static int Max = 1000000;
+
+    public static void main(String[] args) {
+        int[] input = {2, 3, 1, 1, 5, 4};
+        int currentIndex = 0;
+        int result = getMinStep(input, currentIndex);
+        System.out.println(result);
+    }
+
+    public static int getMinStep(int[] input, int currentIndex) {
+        if (currentIndex == input.length - 1) {
+            return 0;
+        }
+        if(currentIndex>input.length-1){
+            return 0;
+        }
+        int minResult = Max;
+        for (int i = 1; i <= input[currentIndex]; i++) {
+            int currentStep = 1 + getMinStep(input, currentIndex + i);
+            if (currentStep < minResult) {
+                minResult = currentStep;
+            }
+        }
+        return minResult;
+    }
+}
