@@ -1,0 +1,38 @@
+package Algorithms.LeetCode;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+public class L0049Practice {
+    public static void main(String[] args) {
+        String[] Strings = {"abc", "cba", "baasd", "cde", "edc"};
+        List<List<String>> result = getResult(Strings);
+        System.out.println(result.toString());
+    }
+
+    public static List<List<String>> getResult(String[] Strings) {
+        HashMap<String, List<String>> recordMap = new HashMap<>();
+        for (String str : Strings) {
+            int[] count = new int[26];
+            for (Character character : str.toCharArray()) {
+                count[character - 'a']++;
+            }
+            String key = "";
+            for (int i = 0; i < count.length; i++) {
+                if (count[i] != 0) {
+                    key += String.valueOf(count[i]) + String.valueOf((char) (i + 'a'));
+                }
+            }
+            if (recordMap.containsKey(key)) {
+                List<String> list = recordMap.get(key);
+                list.add(str);
+            } else {
+                List<String> list = new ArrayList<>();
+                list.add(str);
+                recordMap.put(key, list);
+            }
+        }
+        return new ArrayList<>(recordMap.values());
+    }
+}
