@@ -1,5 +1,8 @@
 package Algorithms.LeetCode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * this problem is you know
  * an absolute multiple stage decision problem
@@ -17,17 +20,18 @@ public class L0045JumpGameV2 {
     private static int Max = 1000000;
 
     public static void main(String[] args) {
-        int[] input = {2, 3, 1, 1, 5, 4};
+        int[] input = {2, 3, 3, 1, 5, 2, 4};
         int currentIndex = 0;
         int result = getMinStep(input, currentIndex);
         System.out.println(result);
+        System.out.println(traceDetail(result, input).toString());
     }
 
     public static int getMinStep(int[] input, int currentIndex) {
         if (currentIndex == input.length - 1) {
             return 0;
         }
-        if(currentIndex>input.length-1){
+        if (currentIndex > input.length - 1) {
             return 0;
         }
         int minResult = Max;
@@ -39,4 +43,34 @@ public class L0045JumpGameV2 {
         }
         return minResult;
     }
+
+    public static List<List<Integer>> traceDetail(int minStep, int[] input) {
+        List<List<Integer>> traceDetail = new ArrayList<>();
+        helper(traceDetail, new ArrayList<>(), minStep, 0, input, 0);
+        return traceDetail;
+    }
+
+    private static void helper(List<List<Integer>> traceDetail, List<Integer> list, int minStep, int currentStep, int[] input, int currentIndex) {
+        if (currentStep == minStep && currentIndex >= input.length - 1) {
+            traceDetail.add(new ArrayList<>(list));
+            return;
+        }
+        if (currentStep > minStep) {
+            return;
+        }
+        if (currentIndex == input.length - 1) {
+            return;
+        }
+        if (currentIndex > input.length - 1) {
+            return;
+        }
+        for (int i = 1; i <= input[currentIndex]; i++) {
+            currentStep = currentStep + 1;
+            list.add(currentIndex);
+            helper(traceDetail, list, minStep, currentStep, input, currentIndex + i);
+            currentStep = currentStep - 1;
+            list.remove(list.size() - 1);
+        }
+    }
+
 }
