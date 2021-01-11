@@ -53,8 +53,8 @@ import java.util.Arrays;
  */
 public class L0004MedianOfTwoSortedArrays {
     public static void main(String[] args) {
-        double[] arrayA = {4, 2, 10, 6, 8, 12, 18, 16, 20, 22};
-        double[] arrayB = {3, 7, 1, 9, 5, 11, 19, 23};
+        double[] arrayA = {4, 2, 10, 6, 8, 12, 18, 16, 20, 22, 7, 7};
+        double[] arrayB = {3, 7, 1, 9, 5, 11, 19, 23, 8, 8};
         double[] arrayC = new double[arrayA.length + arrayB.length];
         for (int i = 0; i < arrayC.length; i++) {
             if (i < arrayA.length) {
@@ -80,7 +80,7 @@ public class L0004MedianOfTwoSortedArrays {
         int cutOfArrayA = search(low, high, lengthOfCombine, arrayA, arrayB);
         int cutOfArrayB = lengthOfCombine / 2 - cutOfArrayA;
         if (lengthOfCombine % 2 == 0) {
-            median = (arrayA[cutOfArrayA] + arrayB[cutOfArrayB - 1]) / 2;
+            median = (arrayA[cutOfArrayA - 1] + arrayB[cutOfArrayB]) / 2;
         } else {
             median = (arrayA.length > arrayB.length) ? arrayA[cutOfArrayA] : arrayB[cutOfArrayB];
         }
