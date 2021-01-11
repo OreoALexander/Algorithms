@@ -1,0 +1,27 @@
+package Algorithms.LeetCode;
+
+import static Algorithms.DataStructure.Tree.BinaryTree.getBinaryTreeFromArray.getBinaryTree;
+/**
+ *                   1
+ *               5       3
+ *            6    n   4   5
+ *         n   n      11 
+ * */
+public class L0104MaximumDepthOfBinaryTree {
+    public static void main(String[] args) {
+        Object[] tree = {1, 5, 3, 6, null, 4, 5, null, null, null, null, null,11};
+      /*  Object[] tree = {1, 5, 3};*/
+        TreeNode treeNode = getBinaryTree(tree);
+        int maxDepth = getMaxDepth(treeNode);
+        System.out.println(maxDepth);
+    }
+
+    public static int getMaxDepth(TreeNode tree) {
+        if (tree == null) {
+            return 0;
+        }
+        int maxDepth;
+        maxDepth = Math.max(getMaxDepth(tree.left) + 1, getMaxDepth(tree.right) + 1);
+        return maxDepth;
+    }
+}
