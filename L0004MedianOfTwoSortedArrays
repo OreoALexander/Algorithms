@@ -47,16 +47,29 @@ import java.util.Arrays;
  * and we use the binary search to search target in the sorted array to find
  * 1   some specific element
  * 2   index for divide !
+ * 1 3  5 7 9 11
+ * 2 4  6
+ * 1 2 3 4    5   6 7 9 11
  */
 public class L0004MedianOfTwoSortedArrays {
     public static void main(String[] args) {
-        double[] arrayA = {4, 2, 10, 6, 8, 12, 18, 16, 20};
-        double[] arrayB = {3, 7, 1, 9, 5};
+        double[] arrayA = {4, 2, 10, 6, 8, 12, 18, 16, 20, 22};
+        double[] arrayB = {3, 7, 1, 9, 5, 11, 19, 23};
+        double[] arrayC = new double[arrayA.length + arrayB.length];
+        for (int i = 0; i < arrayC.length; i++) {
+            if (i < arrayA.length) {
+                arrayC[i] = arrayA[i];
+            } else {
+                arrayC[i] = arrayB[i - arrayA.length];
+            }
+        }
         Arrays.sort(arrayA);
         Arrays.sort(arrayB);
+        Arrays.sort(arrayC);
         double result = findMedian(arrayA, arrayB);
-        System.out.println(result);
-
+        System.out.println("find the median use advanced method : " + result);
+        double median = (arrayC.length % 2 == 0) ? ((arrayC[arrayC.length / 2 - 1] + arrayC[arrayC.length / 2]) / 2) : arrayC[arrayC.length / 2];
+        System.out.println("brute way : " + median);
     }
 
     public static double findMedian(double[] arrayA, double[] arrayB) {
@@ -69,7 +82,7 @@ public class L0004MedianOfTwoSortedArrays {
         if (lengthOfCombine % 2 == 0) {
             median = (arrayA[cutOfArrayA] + arrayB[cutOfArrayB - 1]) / 2;
         } else {
-            median = arrayB[cutOfArrayB];
+            median = (arrayA.length > arrayB.length) ? arrayA[cutOfArrayA] : arrayB[cutOfArrayB];
         }
         return median;
     }
