@@ -1,0 +1,90 @@
+package Algorithms.LeetCode;
+
+import java.util.Arrays;
+
+/**
+ * in this problem that is very very difficult but we have to say
+ * it is very interesting either !
+ * so first of all we have two array which have been sorted !
+ * and we want to find the median of the two sorted array
+ * so in the thought we want a you know combined array and find the median
+ * but the key point is do we need to really construct this combined array
+ * that is not necessary !
+ * the key is to find the right position of the median . these right position
+ * let all the element left to it smaller than the right yes it is but
+ * the right standard for the right position
+ * 2 4    6 8 10
+ * 1 3 5       7
+ * 1 2 3 4 5        6 7 8 9            10
+ * see that is the point !
+ * so we use the binary search  to search the right position but not the element !
+ * or we can say the element we are searching is exactly the you know
+ * the index of the array ! actually it is number !
+ * so what is the point ! so the right position
+ * the right index  of the array A is 2 so with linked relationship we get the right position of the
+ * array B is the 3 length !
+ * yes it is the linked relationship !
+ * so we don't create the actual real combination array so we save some storage ! that is the point !
+ * that is amazing !
+ * the property of the right index is !
+ * cross
+ * so the   left of the array A  < right of the array B
+ * and      right of the array A > left of the array B
+ * and the left of the array A(B)  < right of the array A(B)
+ * that is natual ! and is not the right standard !
+ * 2 4 6   8 10
+ * 1 3    5 7 9
+ * that is very interesting !
+ * if left of the array A  > right of the array B
+ * indicates the position needs to move left to find the
+ * right position !
+ * 2   4 6 8 10
+ * 1 3 5 7    9
+ * left of the array B  > right of the array A
+ * indicates the position needs to move right to find the right
+ * position !
+ * and both cases the wrong position enlarge the other relationship
+ * and we use the binary search to search target in the sorted array to find
+ * 1   some specific element
+ * 2   index for divide !
+ */
+public class L0004MedianOfTwoSortedArrays {
+    public static void main(String[] args) {
+        double[] arrayA = {4, 2, 10, 6, 8, 12, 18, 16, 20};
+        double[] arrayB = {3, 7, 1, 9, 5};
+        Arrays.sort(arrayA);
+        Arrays.sort(arrayB);
+        double result = findMedian(arrayA, arrayB);
+        System.out.println(result);
+
+    }
+
+    public static double findMedian(double[] arrayA, double[] arrayB) {
+        int low = 0;
+        int high = arrayA.length;
+        double median;
+        int lengthOfCombine = arrayA.length + arrayB.length;
+        int cutOfArrayA = search(low, high, lengthOfCombine, arrayA, arrayB);
+        int cutOfArrayB = lengthOfCombine / 2 - cutOfArrayA;
+        if (lengthOfCombine % 2 == 0) {
+            median = (arrayA[cutOfArrayA] + arrayB[cutOfArrayB - 1]) / 2;
+        } else {
+            median = arrayB[cutOfArrayB];
+        }
+        return median;
+    }
+
+    public static int search(int low, int high, int lengthOfCombine, double[] arrayA, double[] arrayB) {
+        int cutOfArrayA = low + (high - low) / 2;
+        int cutOfArrayB = lengthOfCombine / 2 - cutOfArrayA;
+        if (arrayA[cutOfArrayA - 1] < arrayB[cutOfArrayB] && arrayA[cutOfArrayA] > arrayB[cutOfArrayB - 1]) {
+            return cutOfArrayA;
+        } else if (arrayA[cutOfArrayA] < arrayB[cutOfArrayB - 1]) {
+            cutOfArrayA = search(low + 1, high, lengthOfCombine, arrayA, arrayB);
+        } else if (arrayA[cutOfArrayA - 1] > arrayB[cutOfArrayB]) {
+            cutOfArrayA = search(low, high - 1, lengthOfCombine, arrayA, arrayB);
+        }
+        return cutOfArrayA;
+    }
+
+}
