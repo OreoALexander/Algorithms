@@ -1,0 +1,91 @@
+package Algorithms.LeetCode;
+
+import Algorithms.Matrix.DisplayMatrix;
+
+import static Algorithms.Matrix.CreateMatrixWith0And1.matrixWith0And1;
+
+/**
+ * so for the some kind of the complex problem
+ * we introduce the mathematical model to facilitate the problem solving process
+ * that is cool but as all the powerful power . it is hard to control
+ * hard to command so we have to practice
+ * again and again until we have a good command of it
+ * you should know .
+ * every skill in the actual combat . should be the skill which we rely on we trust .
+ * so the only way to trust it is to practice it !
+ * 1 the state construction !
+ * 2 indirect implementation of the problem .
+ * in this problem we choose the width and length to get the area . and get the max area !
+ * 3 so the important is the variable analysis . the relationship between all these variable
+ * we like to use the link to reduce the number of the key variable .
+ * 4 so in our problem . we find the key is to describe the accumulation of 1 ------ next level is
+ * 1 form a rectangle . that is the key !
+ * rectangle  --- width * length
+ * 2 reduce the repetition as possible as we can .
+ * 3 so we use the array to record the continuous 1 in one row and row by row . the
+ * direction is left to the right !
+ * 4 and the length have the connection with the width . if the upper number is not 0
+ * which means the rectangle miss !
+ * so with one array record the width we get the length as well .
+ * we use the connection !
+ * 5 get the max rectangle . but how to trace it  ?
+ * here are different way to do the tracing process . we remember we use the hashmap to encapsulate the
+ * max info . yes we can do that . but that is good enough ?
+ * the output of our method will be very abundant . that is not good
+ * 6 use the trace back to find ? not good ! because we have to search it again .
+ * 7 use one record data structure to record . or just display . that is great !
+ */
+
+
+public class L0085MaximalRectangle {
+    public static void main(String[] args) {
+        int[][] matrix = matrixWith0And1(6, 8, 0.6);
+        DisplayMatrix.DisplayMatrix(matrix);
+        int[][] recordMatrix = getRecordMatrix(matrix);
+        DisplayMatrix.DisplayMatrix(recordMatrix);
+        int maxArea = getMaxArea(recordMatrix);
+        System.out.println("max area is : " + maxArea);
+    }
+
+    public static int[][] getRecordMatrix(int[][] matrix) {
+        int[][] recordMatrix = new int[matrix.length][matrix[0].length];
+        /* initialize the first column */
+        for (int k = 0; k < matrix.length; k++) {
+            recordMatrix[k][0] = (matrix[k][0] == 1) ? 1 : 0;
+        }
+        /* record the continuous 1 to get the width ! */
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 1; j < matrix[0].length; j++) {
+                recordMatrix[i][j] = (matrix[i][j] == 1) ? recordMatrix[i][j - 1] + 1 : 0;
+            }
+        }
+        return recordMatrix;
+    }
+
+    /**
+     * now we have the recordMatrix and we can use it for the implementation
+     * yes we record the longest width from left to the right .
+     * and the height we can also get from the width info  because the connection !
+     * and we will traverse the  matrix  for  every  node !
+     * and get the max rectangle ! control the direction we should control it from
+     */
+    public static int getMaxArea(int[][] recordMatrix) {
+        int maxArea = 0;
+        int currentArea;
+        for (int i = recordMatrix.length - 1; i >= 0; i--) {
+            for (int j = 0; j < recordMatrix[0].length; j++) {
+                int currentHeight = 0;
+                int currentCommonWidth = (recordMatrix[i][j] != 0) ? recordMatrix[i][j] : 0;
+                while (currentHeight < i+1 && recordMatrix[i-currentHeight][j] != 0) {
+                    if (recordMatrix[i-currentHeight][j] < currentCommonWidth) {
+                        currentCommonWidth = recordMatrix[i-currentHeight][j];
+                    }
+                    currentHeight++;
+                    currentArea = currentCommonWidth * currentHeight;
+                    if (currentArea > maxArea) maxArea = currentArea;
+                }
+            }
+        }
+        return maxArea;
+    }
+}
