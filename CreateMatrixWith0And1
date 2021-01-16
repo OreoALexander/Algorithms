@@ -1,0 +1,36 @@
+package Algorithms.Matrix;
+
+import java.util.Random;
+
+/**
+ * demand :
+ * 1 create the matrix . with the 0 and 1 that is the element of the matrix .
+ * and what define a matrix ?
+ * the variable will be xi which indicates the element of the individual element
+ * the range of the xi is 0 and 1 respectively
+ * and int width
+ * and int height
+ * and the Random . the radio of the 1 over the all number which controls the
+ * possibility of the xi become 1 or 0 we can control that in the double number
+ */
+public class CreateMatrixWith0And1 {
+    public static void main(String[] args) {
+        Random random = new Random();
+        double possibility = random.nextDouble();
+        int[][] matrix = matrixWith0And1(6, 8, 0.6);
+        DisplayMatrix.DisplayMatrix(matrix);
+    }
+
+    public static int[][] matrixWith0And1(int width, int height, double possibility) {
+        System.out.println(possibility);
+        int[][] matrix = new int[width][height];
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                Random random = new Random();
+                double judgeNum = random.nextDouble();
+                matrix[i][j] = (judgeNum <= possibility) ? 1 : 0;
+            }
+        }
+        return matrix;
+    }
+}
