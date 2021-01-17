@@ -1,0 +1,56 @@
+package Algorithms.LeetCode;
+
+/**
+ * ok that is a very very difficult problem
+ * how to use the dynamic programming to define the problem
+ * what is the state ?
+ * what is the stages ?
+ * what is the state variable ?
+ * and what is the function we can let the state is the input and the output is the next
+ * state
+ * what is the states set and so on
+ * how to make these problem to be a multiple decision stages !
+ * so here we go .
+ * now we have a string
+ * with ( ) and so on
+ * and we want to get the longest valid parentheses so
+ * what is the valid parentheses
+ * amazing the connection
+ * ( ) )  --- 2
+ * ( ( ) ) --- 4
+ * amazing add one left one the number double
+ * ()()()() immediate matching !
+ * ((()))  jump
+ * (())()(())()() hybrid style
+ * (())()(())()()  (( () ((((
+ * so what is the brute way ?
+ * check every substring and check if it is the you know the valid parentheses . from the 0085 we have see
+ * the array can store some you know the accumulation info .
+ * for this problem the first key is define the state . yes the problem is find the longest but ?
+ * if you create that as the state . ok the result of the sub problem maybe the sub string the result number
+ * can't show the connection the jump and so on  so we find the connection is the position of the ( and )
+ * and the mutual relationship
+ **/
+public class L0032LongestValidParentheses {
+    public static void main(String[] args) {
+        String input = "(())((())))";
+        int result = new L0032LongestValidParentheses().longestValidParentheses(input);
+        System.out.println(result);
+    }
+
+    public int longestValidParentheses(String s) {
+        int max = 0;
+        int[] dp = new int[s.length()];
+        for (int i = 1; i < s.length(); i++) {
+            if (s.charAt(i) == ')') {
+                if (s.charAt(i - 1) == '(') {
+                    dp[i] = (i >= 2 ? dp[i - 2] : 0) + 2;
+                } else if (i - dp[i - 1] > 0 && s.charAt(i - dp[i - 1] - 1) == '(') {
+                    dp[i] = dp[i - 1] + ((i - dp[i - 1] >= 2) ? dp[i - dp[i - 1] - 2] : 0) + 2;
+                }
+            }
+            max = Math.max(max, dp[i]);
+        }
+        return max;
+    }
+}
